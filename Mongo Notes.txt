@@ -1,0 +1,8 @@
+- 'use DATABASE_NAME' 			: Used to create database
+- 'db'							: To check the currently selected database
+- 'show dbs'					: To check databases list
+- 'db dropDatabase()'			: To drop the database - drops the database in which you are in
+- 'db.COLLECTION_NAME.drop()' 	: To drop the collection
+- 'insert()' or 'save()'		: To insert data into mongoDB Collection
+- 'insertOne()','insertMany()'	: To insert one and multiple documents respectively
+- 
