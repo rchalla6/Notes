@@ -1,0 +1,27 @@
+- Let for variable values and const for constant values
+- In the arrow function we can remove the braces around the parameter if there is only one parameter
+- If we have only return statement in the function then we can remove the curly braces of the function and the return keyword in the shorthand version
+- If the export is default we can use any name in the import
+- If the export is named then we have to use the same name in import but we can use alias in the import to convert the named import into whatever name we want
+- Spread operator is used pull out elements of an array
+- Dependency Management Tool - npm or yarn, Bundler - Webpack, Compiler - Babel + Presets
+- {props.children} is used to display the content in between the starting and ending tag of the react component used in another component.
+	This is used when we have content in between tags instead of in attributes
+- State can be used only in the class based Components and if we change the value of the state then the react will render again all the components which are using the state.
+- presentational component or stateless component or dumb component VS container component or statefull component or smart component
+- Styling types - using radium , using styled-components, using css classes
+- LifeCycle of a component
+	constuctor(props)
+	getDerivedStateFromProps(props, state)
+	render()
+	Render child Components
+	componentDidMount() -- We can cause side effects like calling http request to get the data etc..
+- Component Lifecycle - update
+	getDerivedStateFromProps(props, state)
+	shouldComponentUpdate(nextProps, nextState) - may cancel the rendering the component based on conditions
+	render()
+	Update Child Component Props
+	getSnapshotBeforeUpdate(prevProps, prevState)
+	componentDidUpdate() - Shouldn't update the state to stop re-rendering
+- useEffect is used to cover all lifecycle hooks of a class based component
+- 

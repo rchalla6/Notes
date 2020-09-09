@@ -1,0 +1,37 @@
+JAVA:
+-----
+
+To Learn:
+
+* Java 8
+* Spring Framework (Spring Boot)
+* Unit Testing
+* APIs and Libraries
+* JVM’s Internals
+* Design Patterns
+* DevOps Tools
+* Kotlin
+* Microservices
+* Learn Your IDE Better
+
+Important points:
+
+- For classes -  PascalNamingConvension
+- For methods -  camelNamingConvensio
+- For variables - camelCaseNamingConvension
+- In Java strings are immutable - we cannot change the value of a string. Any method that modifies the string will return new string.
+- Every array type implements the interfaces Cloneable and java.io.Serializable.
+- All enums implicitly extend java.lang.Enum class. As a class can only extend one parent in Java, so an enum cannot extend anything else.
+- To print arrays we have to use Arrays class in java
+- Initilisation of Local Variable is Mandatory. Initilisation of Instance Variable is not Mandatory. Its default value is 0
+- Blank final variables are used to create immutable objects (objects whose members can’t be changed once initialized).
+- Abstract classes cannot be instantiated
+- If the parent class has constructor with parameters then we have to call the constructor using the super keyword in the child class.
+- If we want a method to be implemented in its child classes compulsorily make the method as abstract in the base class
+- If we want to make a class not to extended then we have to make the class final, Same with the methods under the class
+- The object/variable is immutable when enhanced for loop is used i.e it ensures that the values in the array can not be modified, so it can be said as read only loop where you can’t 	  update the values as opposite to other loops where values can be modified
+
+
+AWS CloudSearch:
+----------------
+- Matching -> Filtering -> Ranking -> Sorting
