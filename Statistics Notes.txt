@@ -1,0 +1,3 @@
+- Two types of statistics - descriptive and inferential
+- In statistics, a population refers to any complete collection of observations or potential observations, whereas a sample refers to any smaller collection of actual observations drawn from a population
+- 
