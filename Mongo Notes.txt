@@ -5,4 +5,3 @@
 - 'db.COLLECTION_NAME.drop()' 	: To drop the collection
 - 'insert()' or 'save()'		: To insert data into mongoDB Collection
 - 'insertOne()','insertMany()'	: To insert one and multiple documents respectively
-- 
