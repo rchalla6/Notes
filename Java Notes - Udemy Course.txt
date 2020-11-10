@@ -1,2 +1,3 @@
 - keywords are case sensitive - public and Public and even PUBLIC are different
 - sout - shortcut for the System.out.println
+- 8 primitive types of Jave - boolean, byte, char, short, int, long, float, double
