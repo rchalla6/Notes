@@ -1,0 +1,2 @@
+- keywords are case sensitive - public and Public and even PUBLIC are different
+- sout - shortcut for the System.out.println
