@@ -4,4 +4,5 @@
 - Precision refers to the format and amount of space occupied by the type. Single precision occupies 32 bits (for float) and a double precison occupies 64 bits (for double)
 - Default type for whole numbers is int and for real numbers is double
 - datatype doesnot fall under expression, everything after datatype will be considered as an expression
+	variables, values and operators
 - 
