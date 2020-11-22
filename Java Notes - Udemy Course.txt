@@ -6,4 +6,5 @@
 - datatype doesnot fall under expression, everything after datatype will be considered as an expression
 	variables, values and operators
 - Changing return type will not be considered as method overloading
+- super is used to intialize the parent class in the child class
 - 
