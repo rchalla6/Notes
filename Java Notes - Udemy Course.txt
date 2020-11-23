@@ -7,4 +7,7 @@
 	variables, values and operators
 - Changing return type will not be considered as method overloading
 - super is used to intialize the parent class in the child class
+- super is used to access/call the parent class members(variables and methods) whereas this is used to access/call the current class members(variables and methods)
+- overloading does not have anything to do with polymorphism, but java developers often refer to overloading as compile time polymorphism
+- Method overriding is also known as Runtime Polymorphism and Dynamic Method Dispatch, because the method that is going to be called is decided at runtime by the JVM
 - 
