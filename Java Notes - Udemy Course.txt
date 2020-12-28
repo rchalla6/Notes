@@ -10,4 +10,13 @@
 - super is used to access/call the parent class members(variables and methods) whereas this is used to access/call the current class members(variables and methods)
 - overloading does not have anything to do with polymorphism, but java developers often refer to overloading as compile time polymorphism
 - Method overriding is also known as Runtime Polymorphism and Dynamic Method Dispatch, because the method that is going to be called is decided at runtime by the JVM
+- We can't override static methods only instance methods
+- Method overloading rule - child class method can't have a lower access modifier than the parent class method
+- only inherited methods can be overwritten, in other words methods can be overridden only in child classes
+- constructors and private methods cannot be overridden
+- Methods that are final cannot be overridden
+- In method overriding, we must have the same return type or covariant return type (child class)
+- In static methods, we can't use the this keyword
+- Static variables are shared across all the instances of the class, if you change in one instance it will be affected in all the instances of the classes.
+- The default values of numeric array elements are set to 0
 - 
