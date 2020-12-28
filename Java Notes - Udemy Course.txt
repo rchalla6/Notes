@@ -19,4 +19,7 @@
 - In static methods, we can't use the this keyword
 - Static variables are shared across all the instances of the class, if you change in one instance it will be affected in all the instances of the classes.
 - The default values of numeric array elements are set to 0
+
+Collection FrameWorks:
+
 - 
