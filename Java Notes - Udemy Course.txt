@@ -22,4 +22,11 @@
 
 Collection FrameWorks:
 
+- We cannot store primitive type values in the arrayList. 
+	ArrayList<String> stringArrayList = new ArrayList<String>() - Works
+	ArrayList<int> stringArrayList = new ArrayList<int>() - Error
+- We can use wrapper classes to store the primitive type values
+- Autoboxing - Converting primitive value to the wrapper class
+- Unboxing - Converting wrapper class valut to the primitive type
 - 
+	
