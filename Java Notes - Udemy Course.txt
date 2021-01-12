@@ -28,5 +28,9 @@ Collection FrameWorks:
 - We can use wrapper classes to store the primitive type values
 - Autoboxing - Converting primitive value to the wrapper class
 - Unboxing - Converting wrapper class valut to the primitive type
+
+Inner Classes:
+
+- Two types of inner classes - local classes, anonymous classes
 - 
 	
