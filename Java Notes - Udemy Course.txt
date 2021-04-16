@@ -21,7 +21,7 @@
 - The default values of numeric array elements are set to 0
 
 Collection FrameWorks:
-
+----------------------
 - We cannot store primitive type values in the arrayList. 
 	ArrayList<String> stringArrayList = new ArrayList<String>() - Works
 	ArrayList<int> stringArrayList = new ArrayList<int>() - Error
@@ -30,7 +30,18 @@ Collection FrameWorks:
 - Unboxing - Converting wrapper class valut to the primitive type
 
 Inner Classes:
-
+--------------
 - Two types of inner classes - local classes, anonymous classes
-- 
+
+Naming Conventions:
+-------------------
+Packages - all lowercase
+Classes - CamelCase
+Interfaces - CamelCase
+Methods - mixedCase
+Constants - all Capitals seperated by _
+variables - mixedCase
+Type parameters - single character Capital letter
+
+
 	
