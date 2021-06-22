@@ -1,0 +1,3 @@
+- Inversion of Control (IoC)
+	- outsource to an object property
+ 
