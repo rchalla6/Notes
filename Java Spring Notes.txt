@@ -1,3 +1,13 @@
 - Inversion of Control (IoC)
 	- outsource to an object property
- 
+
+- Spring IoC methods
+	- Using XML Configuration file (legacy)
+	- Using beans (modern)
+	- Using Java Source Code (modern)
+
+- Spring development process
+	- Configuring your spring beans
+	- Create a Spring Container
+	- Retrieve Beans from Spring Container
+
