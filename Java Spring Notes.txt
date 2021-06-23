@@ -11,3 +11,12 @@
 	- Create a Spring Container
 	- Retrieve Beans from Spring Container
 
+- Spring Container is generally known as ApplicationContext
+- A 'Spring Bean' is simply a Java Object
+
+- Spring Injection Types
+	- Constructor Injection
+	- Setter Injection
+	- Autowired
+
+-
