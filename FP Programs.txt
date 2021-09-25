@@ -1,0 +1,242 @@
+EVEN NUMBERS:
+-------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please enter the starting number:");
+            int start = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter total numbers in the range:");
+            int numbersRange = Convert.ToInt32(Console.ReadLine());
+            Func<int, bool> isEven = x => x % 2 == 0;
+            int[] filterdEvenNumbers = Enumerable.Range(start, numbersRange).Where(isEven).ToArray();
+            Console.WriteLine("Even numbers:");
+            foreach(int evenNumber in filterdEvenNumbers)
+            {
+                Console.WriteLine(evenNumber);
+            }
+        }
+    }
+}
+
+CIRCLE ATTRIBUTES USING TUPLE:
+------------------------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> circle;
+            Console.WriteLine("Please enter the radius of the circle:");
+            double radius = Convert.ToDouble(Console.ReadLine());
+            circle = circleTuple(radius);
+            Console.WriteLine("Area of the circle:" + circle.Item1);
+            Console.WriteLine("Perimeter of the circle:" + circle.Item2);
+            Console.WriteLine("Diameter of the circle:" + circle.Item3);
+        }
+
+        static Tuple<double, double, double> circleTuple(double radius)
+        {
+            double perimeter = 2 * Math.PI * radius;
+            double diameter = 2 * radius;
+            double area = Math.PI * radius * radius;
+            return Tuple.Create(area, perimeter, diameter);
+        }
+    }
+}
+
+FIFTH POWER GREATER THAN A PARTICULAR NUMBER:
+---------------------------------------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please enter the starting number");
+            int start = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter the last number:");
+            int last = Convert.ToInt32(Console.ReadLine());
+            int range = last - start + 1;
+            Func<int, bool> isGreaterThan3000 = x => x*x*x*x*x > 3000;
+            int[] filteredNumbers = Enumerable.Range(start, range).Where(isGreaterThan3000).ToArray();
+            Console.WriteLine("Numbers whose fifth power is > 3000");
+            foreach (int greaterNumbers in filteredNumbers)
+            {
+                Console.WriteLine(greaterNumbers);
+            }
+        }
+    }
+}
+
+SORT THE TUPLES LIST HAVING INT AND STRING ALPHABETICALLY:
+----------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> tupleList = new List<Tuple<int, string>>();
+            tupleList.Add(Tuple.Create(1, "bob"));
+            tupleList.Add(Tuple.Create(2, "anthony"));
+            tupleList.Add(Tuple.Create(3, "claire"));
+            tupleList.Add(Tuple.Create(4, "aiswarya"));
+            tupleList.Add(Tuple.Create(5, "raj"));
+            tupleList.Add(Tuple.Create(6, "sandeep"));
+            tupleList.Add(Tuple.Create(7, "giri"));
+            tupleList.Add(Tuple.Create(8, "ester"));
+            tupleList.Add(Tuple.Create(9, "brendon"));
+            tupleList.Add(Tuple.Create(10, "charlier"));
+            List<Tuple<int, string>> newtupleList = tupleList.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorting");
+            foreach(Tuple<int,String> tuple in newtupleList)
+            {
+                Console.WriteLine(tuple.Item2 + "," + tuple.Item1);
+            }
+        }
+    }
+}
+
+TUPLES FILTERING AND SORTING:
+-----------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> tupleList = new List<Tuple<string, string, int, string>>();
+            Console.WriteLine("Please enter 1 to add the car information or 0 to exit:");
+            int optionEntered = Convert.ToInt32(Console.ReadLine());
+            if(optionEntered == 1)
+            {
+                while(optionEntered == 1)
+                {
+                    Console.WriteLine("Please enter type of car:");
+                    string carType = Console.ReadLine();
+                    Console.WriteLine("Please enter color of car:");
+                    string color = Console.ReadLine();
+                    Console.WriteLine("Please enter number of passenger seats:");
+                    int seatSize = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Please enter engine type of car:");
+                    string engineType = Console.ReadLine();
+                    tupleList.Add(Tuple.Create(carType, color, seatSize, engineType));
+                    Console.WriteLine("Car info added succesfully to the list");
+                    Console.WriteLine("Please enter 1 to add the car information or 0 to exit:");
+                    optionEntered = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            if(tupleList.Count == 0)
+            {
+                Console.WriteLine("No car info is added, Nothing to print");
+            }
+            else
+            {
+                List<Tuple<string, string, int, string>> v6EngineTupleList = tupleList.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                if(v6EngineTupleList.Count == 0)
+                {
+                    Console.WriteLine("No car with V6 Engine, Nothing to print");
+                }
+                else
+                {
+                    List<Tuple<string, string, int, string>> v6EngineTupleColorSortedList = v6EngineTupleList.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("After sorting color of the cars");
+                    foreach (Tuple<string, string, int, string> tuple in v6EngineTupleColorSortedList)
+                    {
+                        Console.WriteLine(tuple.Item2);
+                    }
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+LISTING OUT WORDS HAVING UNIQUE CHARACTERS:
+-------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<string, int, bool> func = (x, y) => x.Distinct().Count() == y;
+            List<string> list = new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            List<string> uniqueWordsList = new List<string>();
+            foreach(string word in list)
+            {
+                if (func(word.ToLower(), word.Length)){
+                    uniqueWordsList.Add(word);
+                }
+            }
+            Console.WriteLine("Unique words list:");
+            foreach(string word in uniqueWordsList)
+            {
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
+
+PRINTING SALUTATION BASED ON TIME:
+----------------------------------
+
+using System;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var date = DateTime.Now;
+            if(date.Hour < 12)
+            {
+                Console.WriteLine("Good Morning");
+            }
+            else if(date.Hour < 18)
+            {
+                Console.WriteLine("Goof Afternoon");
+            }
+            else
+            {
+                Console.WriteLine("Good Evening");
+            }
+        }
+    }
+}
+
+
+
+
