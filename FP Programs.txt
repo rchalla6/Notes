@@ -236,7 +236,3 @@ namespace functionalProgrammingTest
         }
     }
 }
-
-
-
-
