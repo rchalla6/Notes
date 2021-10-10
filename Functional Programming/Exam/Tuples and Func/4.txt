@@ -1,0 +1,181 @@
+SORT THE TUPLES LIST HAVING INT AND STRING ALPHABETICALLY:
+----------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> tupleList = new List<Tuple<int, string>>();
+            tupleList.Add(Tuple.Create(1, "bob"));
+            tupleList.Add(Tuple.Create(2, "anthony"));
+            tupleList.Add(Tuple.Create(3, "claire"));
+            tupleList.Add(Tuple.Create(4, "aiswarya"));
+            tupleList.Add(Tuple.Create(5, "raj"));
+            tupleList.Add(Tuple.Create(6, "sandeep"));
+            tupleList.Add(Tuple.Create(7, "giri"));
+            tupleList.Add(Tuple.Create(8, "ester"));
+            tupleList.Add(Tuple.Create(9, "brendon"));
+            tupleList.Add(Tuple.Create(10, "charlier"));
+            List<Tuple<int, string>> newtupleList = tupleList.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorting");
+            foreach(Tuple<int,String> tuple in newtupleList)
+            {
+                Console.WriteLine(tuple.Item2 + "," + tuple.Item1);
+            }
+        }
+    }
+}
+
+---------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> nameTupleList = new List<Tuple<int, string>>();
+            Console.WriteLine("Enter total number of tuples to add:");
+            int totalNumbers = Convert.ToInt32(Console.ReadLine());
+            int iterator = 1;
+            while(iterator <= totalNumbers)
+            {
+                Console.WriteLine("Enter details of tuple " + iterator);
+                Console.WriteLine("Enter int:");
+                int number = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter string:");
+                string str = Console.ReadLine();
+                nameTupleList.Add(Tuple.Create(number, str));
+                iterator++;
+            }
+            //Sort the tuple list by string
+            List<Tuple<int, string>> sortedList = nameTupleList.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorting the tuples are:");
+            foreach (Tuple<int, String> tupleItem in sortedList) 
+            {
+                Console.WriteLine(tupleItem.Item2 + "," + tupleItem.Item1);
+            }
+        }
+    }
+}
+
+---------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> listOfRecords = new List<Tuple<int, string>>();
+            createList(listOfRecords);
+            List<Tuple<int, string>> sortedRecords = listOfRecords.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorting records are:");
+            foreach (Tuple<int, String> tuple in sortedRecords)
+            {
+                Console.WriteLine(tuple.Item2 + "," + tuple.Item1);
+            }
+        }
+
+        static void createList(List<Tuple<int, string>> listOfRecords)
+        {
+            listOfRecords.Add(Tuple.Create(1, "Sachin"));
+            listOfRecords.Add(Tuple.Create(2, "Dhoni"));
+            listOfRecords.Add(Tuple.Create(3, "Virat"));
+            listOfRecords.Add(Tuple.Create(4, "Sehwaj"));
+            listOfRecords.Add(Tuple.Create(5, "Dravid"));
+            listOfRecords.Add(Tuple.Create(6, "Laxman"));
+            listOfRecords.Add(Tuple.Create(7, "Rohit"));
+            listOfRecords.Add(Tuple.Create(8, "Ashwin"));
+            listOfRecords.Add(Tuple.Create(9, "Clark"));
+            listOfRecords.Add(Tuple.Create(10, "Pant"));
+        }
+    }
+}
+
+--------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ProgrammingTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> nameTupleList = createTupleList();
+            sortAndPrintTupleList(nameTupleList);
+        }
+
+        private static void sortAndPrintTupleList(List<Tuple<int, string>> list)
+        {
+            List<Tuple<int, string>> sortList = list.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorting the tuples are:");
+            foreach (Tuple<int, String> item in sortList)
+            {
+                Console.WriteLine(item.Item2 + "," + item.Item1);
+            }
+        }
+
+        private static List<Tuple<int, string>> createTupleList()
+        {
+            List<Tuple<int, string>> list = new List<Tuple<int, string>>();
+            Console.WriteLine("Total number of tuple records to add:");
+            int count = Convert.ToInt32(Console.ReadLine());
+            int counter = 1;
+            while (counter <= count)
+            {
+                Console.WriteLine("Details for tuple:" + counter);
+                Console.WriteLine("------------------");
+                Console.WriteLine("Enter Int (Tuple Item1)");
+                int item1 = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter String (Tuple Item1):");
+                string item2 = Console.ReadLine();
+                list.Add(Tuple.Create(item1, item2));
+                counter++;
+            }
+            return list;
+        }
+    }
+}
+
+---------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> li = new List<Tuple<int, string>>();
+            li.Add(Tuple.Create(1, "Professor")); li.Add(Tuple.Create(2, "Lisbon"));
+            li.Add(Tuple.Create(3, "Moscow")); li.Add(Tuple.Create(4, "Nairobi"));
+            li.Add(Tuple.Create(5, "Tokyo")); li.Add(Tuple.Create(6, "Rio"));
+            li.Add(Tuple.Create(7, "Denver")); li.Add(Tuple.Create(8, "Palermo"));
+            li.Add(Tuple.Create(9, "Helsinki")); li.Add(Tuple.Create(10, "Oslo"));
+            List<Tuple<int, string>> newLi = li.OrderBy(x => x.Item2).ToList();
+            foreach (Tuple<int, String> t in newLi)
+                Console.WriteLine(t.Item2 + "," + t.Item1);
+        }
+    }
+}
+

@@ -1,0 +1,195 @@
+CIRCLE ATTRIBUTES USING TUPLE:
+------------------------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> circle;
+            Console.WriteLine("Please enter the radius of the circle:");
+            double radius = Convert.ToDouble(Console.ReadLine());
+            circle = circleTuple(radius);
+            Console.WriteLine("Area of the circle:" + circle.Item1);
+            Console.WriteLine("Perimeter of the circle:" + circle.Item2);
+            Console.WriteLine("Diameter of the circle:" + circle.Item3);
+        }
+
+        static Tuple<double, double, double> circleTuple(double radius)
+        {
+            double perimeter = 2 * Math.PI * radius;
+            double diameter = 2 * radius;
+            double area = Math.PI * radius * radius;
+            return Tuple.Create(area, perimeter, diameter);
+        }
+    }
+}
+
+--------------------------
+
+using System;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> circle;
+            Console.WriteLine("Enter radius:");
+            double radius = Convert.ToDouble(Console.ReadLine());
+            //Calling tuple method to get circle attributes
+            circle = getCircleAttributes(radius);
+            Console.WriteLine("For a given radius " + radius + " circle attributes calculated are as follows:");
+            Console.WriteLine("Area:" + circle.Item1);
+            Console.WriteLine("Perimeter:" + circle.Item2);
+            Console.WriteLine("Diameter:" + circle.Item3);
+        }
+
+        static Tuple<double, double, double> getCircleAttributes(double radius)
+        {
+            double perimeter, diameter, area;
+            //Finding the area
+            area = Math.PI * radius * radius;
+            //Finding the perimeter
+            perimeter = 2 * Math.PI * radius;
+            //Finding the diameter
+            diameter = 2 * radius;
+            return Tuple.Create(area, perimeter, diameter);
+        }
+    }
+}
+
+-------------------------------
+
+using System;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> areaPerDia;
+            double a, p, d;
+            Console.WriteLine("Enter radius of the circle:");
+            double radius = Convert.ToDouble(Console.ReadLine());
+            //Find the attributes of the circle using the tuple function using out parameters
+            areaPerDia = findCircleAreaPeriDia(radius,out a,out p,out d);
+            //Print the output
+            Console.WriteLine("Circle area:" + a);
+            Console.WriteLine("Circle peri:" + p);
+            Console.WriteLine("Circle dia:" + d);
+        }
+
+        static Tuple<double, double, double> findCircleAreaPeriDia(double radius, out double a, out double p, out double d)
+        {
+            Console.WriteLine("Insider the tuple function and calculating area, perimeter and diameter");
+            //Calcating area
+            a = Math.PI * radius * radius;
+            //Calculating perimter
+            p = 2 * Math.PI * radius;
+            //Calculating diameter
+            d = 2 * radius;
+            return Tuple.Create(a, p, d);
+        }
+    }
+}
+
+-------------------------------------------
+
+using System;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> tuple;
+            Console.WriteLine("Please enter radius:");
+            double rad = Convert.ToDouble(Console.ReadLine());
+            calculateCircleAreaPerimeterDiameter(rad, out double area, out double perimeter, out double diameter);
+            tuple = Tuple.Create(area, perimeter, diameter);
+            Console.WriteLine("For the given radius (" + rad + ") of the circle");
+            Console.WriteLine("Area:" + tuple.Item1 + ", Perimeter:"+ tuple.Item2 + ", Diameter:" + tuple.Item3);
+        }
+
+        static void calculateCircleAreaPerimeterDiameter(double rad, out double x, out double y, out double z)
+        {
+            x = Math.PI * rad * rad;
+            y = 2 * Math.PI * rad;
+            z = 2 * rad;
+        }
+    }
+}
+
+--------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ProgrammingTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tuple<double, double, double> tupleForCircle;
+            double areaOfCircle;
+            double perimeterOfCircle;
+            double diameterOfCircle;
+            Console.WriteLine("Enter radius of circle:");
+            double radiusOfCircle = Convert.ToDouble(Console.ReadLine());
+            calculateCircleParameters(radiusOfCircle, out areaOfCircle, out perimeterOfCircle, out diameterOfCircle);
+            Console.WriteLine("Creating tuple from the return values");
+            tupleForCircle = Tuple.Create(areaOfCircle, perimeterOfCircle, diameterOfCircle);
+            Console.WriteLine("Printing calculated values from tuple");
+            Console.WriteLine("Area:" + tupleForCircle.Item1 + ", Perimeter:" + tupleForCircle.Item2 + ", Diameter:" + tupleForCircle.Item3);
+        }
+
+        static void calculateCircleParameters(double radiusOfCircle, out double areaOfCircle, out double perimeterOfCircle, out double diameterOfCircle)
+        {
+            Console.WriteLine("Given radius of the cirlce:" + radiusOfCircle);
+            Console.WriteLine("Calculating area of circle:");
+            areaOfCircle = Math.PI * radiusOfCircle * radiusOfCircle;
+            Console.WriteLine("Area of the circle calculated:" + areaOfCircle);
+            Console.WriteLine("Calculating perimeter of circle:");
+            perimeterOfCircle = 2 * Math.PI * radiusOfCircle;
+            Console.WriteLine("Perimeter of the circle calculated:" + perimeterOfCircle);
+            Console.WriteLine("Calculating diameter of circle:");
+            diameterOfCircle = 2 * radiusOfCircle;
+            Console.WriteLine("Diameter of the circle calculated:" + diameterOfCircle);
+        }
+    }
+}
+
+-----------------------------------------------
+
+using System;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter radius of circle:"); double r = Convert.ToDouble(Console.ReadLine());
+            calculateAreaPerDia(r, out double a, out double p, out double d);
+            Tuple<double, double, double>  t = Tuple.Create(a, p, d);
+            Console.WriteLine("Radius:" + r + " -----> Area:" + t.Item1 + ", Perimeter:" + t.Item2 + ", Diameter:" + t.Item3);
+        }
+
+        static void calculateAreaPerDia(double r, out double a, out double p, out double d)
+        {
+            a = Math.PI * r * r; p = 2 * Math.PI * r; d = 2 * r;
+        }
+    }
+}
+
+--------------------------------------------------------
+

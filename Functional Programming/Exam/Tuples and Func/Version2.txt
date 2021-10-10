@@ -1,0 +1,302 @@
+More Console statements Version:
+
+FIFTH POWER GREATER THAN A PARTICULAR NUMBER:
+---------------------------------------------
+
+using System;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter first number of the range");
+            int firstNumber = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter last number of the range");
+            int lastNumber = Convert.ToInt32(Console.ReadLine());
+
+            //Function which checks the fifth power is greater than 3000 or not
+            Func<int, bool> fifthPowerCondition = number => Math.Pow(number, 5) > 3000;
+
+            //Finding the range to use in the range function of enumerable
+            int range = lastNumber - firstNumber + 1;
+            Console.WriteLine("Range of the numbers is:" + range);
+            //Filtering elements
+            int[] fifthPowerGreaterThan3000Numbers = 
+                Enumerable.Range(firstNumber, lastNumber - firstNumber + 1).Where(fifthPowerCondition).ToArray();
+
+            Console.WriteLine("First number in the range - " + firstNumber);
+            Console.WriteLine("Last number in the range - " + lastNumber);
+            Console.WriteLine("Numbers with fifth power greater than 3000 :-");
+            foreach (int number in fifthPowerGreaterThan3000Numbers)
+            {
+                Console.WriteLine(number);
+            }
+        }
+    }
+}
+
+CIRCLE ATTRIBUTES USING TUPLE:
+------------------------------
+
+using System;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter radius to calculate area, perimeter and diameter:");
+            double Rad = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Radisu entered is - " + Rad);
+            Tuple<double, double, double> cir = getCircleAttributes(Rad);
+            Console.WriteLine("Area:" + cir.Item1);
+            Console.WriteLine("Perimeter:" + cir.Item2);
+            Console.WriteLine("Diameter:" + cir.Item3);
+        }
+
+        static Tuple<double, double, double> getCircleAttributes(double radius)
+        {
+            double perimeterOfCircle, diameterOfCircle, areaOfCircle;
+            //Area
+            areaOfCircle = Math.PI * radius * radius;
+            Console.WriteLine("Formula for area of the circle is PI * r * r ");
+            Console.WriteLine("Area calculated by above formula is " + areaOfCircle);
+            //Perimeter
+            perimeterOfCircle = 2 * Math.PI * radius;
+            Console.WriteLine("Formula for perimeter of the circle is 2 * PI * r ");
+            Console.WriteLine("Perimeter calculated by above formula is " + perimeterOfCircle);
+            //Diameter
+            diameterOfCircle = 2 * radius;
+            Console.WriteLine("Formula for diameter of the circle is 2 * r ");
+            Console.WriteLine("Diameter calculated by above formula is " + diameterOfCircle);
+            return Tuple.Create(areaOfCircle, perimeterOfCircle, diameterOfCircle);
+        }
+    }
+}
+
+PRINTING SALUTATION BASED ON TIME:
+----------------------------------
+
+using System;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var dateTime = DateTime.Now;
+            Console.WriteLine("Please enter your name:");
+            string name = Console.ReadLine();
+            Console.WriteLine("Current time is " + dateTime.TimeOfDay);
+            Console.WriteLine("Current hour of the day is: " + dateTime.Hour);
+            if (dateTime.Hour < 12)
+            {
+                Console.WriteLine("Good Morning " + name);
+            }
+            else if (dateTime.Hour < 18)
+            {
+                Console.WriteLine("Good Afternoon " + name);
+            }
+            else
+            {
+                Console.WriteLine("Good Evening " + name);
+            }
+        }
+    }
+}
+
+EVEN NUMBERS:
+-------------
+
+using System;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please enter first number:");
+            int firstNumber = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter range of the numbers:");
+            int range = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Numbers in the range are:");
+            for(int i=firstNumber; i <= firstNumber + range; i++)
+            {
+                Console.Write(i + "  ");
+            }
+            Console.WriteLine();
+            Func<int, bool> evenNumberOrNot = number => number % 2 == 0;
+            int[] evenNumbersInTheRange = Enumerable.Range(firstNumber, range).Where(evenNumberOrNot).ToArray();
+            Console.WriteLine("Even numbers:");
+            foreach (int num in evenNumbersInTheRange)
+            {
+                Console.Write(num + "  ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+SORT THE TUPLES LIST HAVING INT AND STRING ALPHABETICALLY:
+----------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<int, string>> intStringList = new List<Tuple<int, string>>();
+            Console.WriteLine("How many records do you want to add:");
+            int numberOfRecords = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Total number of records to add:" + numberOfRecords);
+            int index = 1;
+            while (index <= numberOfRecords)
+            {
+                Console.WriteLine("Add record " + index + " details");
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Enter first item)");
+                int firstItem = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Enter second item");
+                string secondItem = Console.ReadLine();
+                intStringList.Add(Tuple.Create(firstItem, secondItem));
+                index++;
+            }
+            sortListByStringItem(intStringList);
+        }
+
+        private static void sortListByStringItem(List<Tuple<int, string>> listOfIntString)
+        {
+            Console.WriteLine("Sorting the list by string item");
+            List<Tuple<int, string>> sortedIntStringListByString = listOfIntString.OrderBy(x => x.Item2).ToList();
+            Console.WriteLine("After sorted by string the order of elements is:");
+            foreach (Tuple<int, String> i in sortedIntStringListByString)
+            {
+                Console.WriteLine(i.Item2 + "," + i.Item1);
+            }
+        }
+    }
+}
+
+LISTING OUT WORDS HAVING UNIQUE CHARACTERS:
+-------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Given list of words:");
+            Console.WriteLine("--------------------");
+            List<string> listOfWords = new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            foreach(var word in listOfWords)
+            {
+                Console.WriteLine(word);
+            }
+            Func<string, int, bool> func = (word, lengthOfWord) => word.Distinct().Count() == lengthOfWord;
+            List<string> uniqueWordsList = new List<string>();
+            foreach (string w in listOfWords)
+            {
+                if (func(w.ToLower(), w.Length))
+                {
+                    uniqueWordsList.Add(w);
+                }
+            }
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("uniqe words from the list are:");
+            Console.WriteLine("------------------------------");
+            foreach (string w in uniqueWordsList)
+            {
+                Console.WriteLine(w);
+            }
+        }
+    }
+}
+
+TUPLES FILTERING AND SORTING:
+-----------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FuncProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> objectListOfCarDetails = new List<Tuple<string, string, int, string>>();
+            Console.WriteLine("How many car details do you want to add:");
+            int totalCarDetailsCount = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Total count of car details records to be added: " + totalCarDetailsCount);
+            Console.WriteLine("--------------------------------------------------");
+            for (int carCount = 1; carCount <= totalCarDetailsCount; carCount++)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Please enter details of car " + carCount);
+                Console.WriteLine("Please enter type of the car:");
+                string typeOfThecar = Console.ReadLine();
+                Console.WriteLine("Please enter color of the car");
+                string colorOfTheCar = Console.ReadLine();
+                Console.WriteLine("Please enter number of passenger seats of the car");
+                int numberOfPassengerSeatsOfTheCar = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Please enter car engine type:");
+                string engineTypeOfTheCar = Console.ReadLine();
+                objectListOfCarDetails.Add(Tuple.Create(typeOfThecar, colorOfTheCar, numberOfPassengerSeatsOfTheCar, engineTypeOfTheCar));
+            }
+
+            if (objectListOfCarDetails.Count == 0)
+            {
+                Console.WriteLine("No records for car details are found. There is nothing to process");
+            }
+            else
+            {
+                Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("Filtering the V6 Engine car from the list");
+                List<Tuple<string, string, int, string>> v6EngineCarsList =
+                    objectListOfCarDetails.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                Console.WriteLine("Total V6 engine cars found:" + v6EngineCarsList.Count);
+                if(v6EngineCarsList.Count == 0)
+                {
+                    Console.WriteLine("There are 0 V6 engine cars. There is nothing to process further");
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Printing the car details of the V6 engine cars");
+                    foreach (Tuple<string, string, int, string> v6enginecar in v6EngineCarsList)
+                    {
+                        Console.WriteLine(v6enginecar.Item1 + "," + v6enginecar.Item2 + "," + v6enginecar.Item3 + "," + v6enginecar.Item4);
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("Sorting the v6 engine cars by color");
+                    List<Tuple<string, string, int, string>> sortedCars = v6EngineCarsList.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("After sorting color of the cars");
+                    foreach (Tuple<string, string, int, string> r in sortedCars)
+                    {
+                        Console.WriteLine(r.Item2);
+                    }
+                }
+            }
+        }
+    }
+}

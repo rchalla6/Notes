@@ -1,0 +1,168 @@
+FIFTH POWER GREATER THAN A PARTICULAR NUMBER:
+---------------------------------------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please enter the starting number");
+            int start = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter the last number:");
+            int last = Convert.ToInt32(Console.ReadLine());
+            int range = last - start + 1;
+            Func<int, bool> isGreaterThan3000 = x => x*x*x*x*x > 3000;
+            int[] filteredNumbers = Enumerable.Range(start, range).Where(isGreaterThan3000).ToArray();
+            Console.WriteLine("Numbers whose fifth power is > 3000");
+            foreach (int greaterNumbers in filteredNumbers)
+            {
+                Console.WriteLine(greaterNumbers);
+            }
+        }
+    }
+}
+
+--------------------------
+
+using System;
+using System.Linq;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Getting First Number as input from user
+            Console.WriteLine("Enter starting number");
+            int startingNumber = Convert.ToInt32(Console.ReadLine());
+            //Getting Last Number as input from user
+            Console.WriteLine("Enter last number:");
+            int lastNumer = Convert.ToInt32(Console.ReadLine());
+            //Function to check fifth power is greater than 3000 or not
+            Func<int, bool> condition = x => Math.Pow(x,5) > 3000;
+            //Filterting elements
+            int[]  numbersWhoseFifthPowerIsGreaterThan3000 = Enumerable.Range(startingNumber, lastNumer - startingNumber + 1).Where(condition).ToArray();
+            Console.WriteLine("Numbers:");
+            foreach (int greaterNumbers in numbersWhoseFifthPowerIsGreaterThan3000)
+                Console.WriteLine(greaterNumbers);
+        }
+    }
+}
+
+-----------------------------
+
+using System;
+using System.Linq;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Func to check fifth power condition
+            Func<int, bool> fifthPowerCondition = x => Math.Pow(x, 5) > 3000;
+            //Filterting elements
+            Console.WriteLine("Before filtering numbers are:");
+            for (int i = 2; i <= 10; i++)
+                Console.Write(i + "  ");
+            Console.WriteLine();
+            int[] filteredList = Enumerable.Range(2, 10 - 2 + 1).Where(fifthPowerCondition).ToArray();
+            Console.WriteLine("After filtering numbers whose fifth power is greater than 3000:");
+            foreach (int greaterNumbers in filteredList)
+                Console.Write(greaterNumbers + "  ");
+        }
+    }
+}
+
+-------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            fifthPowerOfEachNumber();
+            fifthPowerFiltering();
+        }
+
+        private static void fifthPowerFiltering()
+        {
+            Func<int, bool> cond = x => Math.Pow(x, 5) > 3000;
+            int[] num = Enumerable.Range(2, 10 - 2 + 1).Where(cond).ToArray();
+            Console.WriteLine("Numbers whose fifth power is greater than 3000:");
+            foreach (int n in num)
+                Console.WriteLine(n + "  ");
+        }
+
+        private static void fifthPowerOfEachNumber()
+        {
+            Console.WriteLine("Fifth power of each number is:");
+            for(int i=2; i <= 10; i++)
+            {
+                Console.WriteLine(i + "  --->" + Math.Pow(i,5));
+            }
+        }
+    }
+}
+
+------------------------------------------
+
+using System;
+using System.Linq;
+
+namespace ProgrammingTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Printing fifth power of numbers from 2 to 10:");
+            for (int x = 2; x <= 10; x++)
+            {
+                Console.WriteLine(x + "  ::::  " + Math.Pow(x, 5));
+            }
+            numbersWithFifthPowerMoreThan3000();
+        }
+
+        private static void numbersWithFifthPowerMoreThan3000()
+        {
+            Func<int, bool> _3000Condition = z => Math.Pow(z, 5) > 3000;
+            int range = 10 - 2 + 1;
+            int[] numbersArray = Enumerable.Range(2, range).Where(_3000Condition).ToArray();
+            Console.WriteLine("Numbers whose fifth power is greater than 3000:");
+            foreach (int num in numbersArray)
+                Console.WriteLine(num);
+        }
+    }
+}
+
+----------------------------------------------------
+
+using System;
+using System.Linq;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<int, bool> func = x => Math.Pow(x,5) > 3000;
+            //Range is 9 as numbers are from 2 to 10
+            int[] filNum = Enumerable.Range(2, 9).Where(func).ToArray();
+            foreach (int g in filNum)
+                Console.WriteLine(g);
+        }
+    }
+}

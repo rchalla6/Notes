@@ -1,0 +1,99 @@
+EVEN NUMBERS:
+-------------
+
+using System;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please enter the starting number:");
+            int start = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter total numbers in the range:");
+            int numbersRange = Convert.ToInt32(Console.ReadLine());
+            Func<int, bool> isEven = x => x % 2 == 0;
+            int[] filterdEvenNumbers = Enumerable.Range(start, numbersRange).Where(isEven).ToArray();
+            Console.WriteLine("Even numbers:");
+            foreach(int evenNumber in filterdEvenNumbers)
+            {
+                Console.WriteLine(evenNumber);
+            }
+        }
+    }
+}
+
+--------------------------------
+
+using System;
+using System.Linq;
+
+namespace Test 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Function to check if the number is even
+            Func<int, bool> isEvenNumber = x => x % 2 == 0;
+            //Filtering even numbers
+            int[] evenNumbers = Enumerable.Range(11, 20).Where(isEvenNumber).ToArray();
+            Console.WriteLine("Numbers before filtering:");
+            for(int i=11; i<=11+20; i++)
+                Console.Write(i + "  ");
+            Console.WriteLine("\nPrinting Even numbers from the list:");
+            foreach (int evenNumber in evenNumbers)
+                Console.Write(evenNumber + "  ");
+        }
+    }
+}
+
+-------------------------------
+
+using System;
+using System.Linq;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] evenNum = findEvenNumbers();
+            Console.WriteLine("Even numbers from 11 in next 20 elements range:");
+            foreach (int num in evenNum)
+                Console.Write(num + "  ");
+        }
+
+        private static int[] findEvenNumbers()
+        {
+            Func<int, bool> evenNumberConditionFunc = x => x % 2 == 0;
+            return Enumerable.Range(11, 20).Where(evenNumberConditionFunc).ToArray();
+        }
+    }
+}
+
+---------------------------------------
+
+using System;
+using System.Linq;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<int, bool> isEven = ev => ev % 2 == 0;
+            int[] evenNums = Enumerable.Range(11, 20).Where(isEven).ToArray();
+            Console.WriteLine("Even numbers");
+            foreach (int evenNum in evenNums)
+                Console.WriteLine(evenNum);
+        }
+    }
+}
+
+-------------------------------------------------
+

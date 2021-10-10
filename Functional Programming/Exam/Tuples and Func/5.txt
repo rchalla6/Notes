@@ -1,0 +1,113 @@
+PRINTING SALUTATION BASED ON TIME:
+----------------------------------
+
+using System;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var date = DateTime.Now;
+            if(date.Hour < 12)
+            {
+                Console.WriteLine("Good Morning");
+            }
+            else if(date.Hour < 18)
+            {
+                Console.WriteLine("Goof Afternoon");
+            }
+            else
+            {
+                Console.WriteLine("Good Evening");
+            }
+        }
+    }
+}
+
+--------------------------------------
+
+using System;
+
+namespace Test 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var currentDateTime = DateTime.Now;
+            if (currentDateTime.Hour < 12)
+            {
+                Console.Write("Current time is " + currentDateTime.TimeOfDay);
+                Console.WriteLine(" ----> Good Morning");
+            }
+            else if (currentDateTime.Hour < 18)
+            {
+                Console.Write("Current time is " + currentDateTime.TimeOfDay);
+                Console.WriteLine(" ----> Good Afternoon");
+            }
+            else
+            {
+                Console.Write("Current time is " + currentDateTime.TimeOfDay);
+                Console.WriteLine(" ----> Good Evening");
+            }
+        }
+    }
+}
+
+
+------------------------------------------
+
+using System;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var currentDateTime = DateTime.Now;
+            string salutation = currentDateTime.Hour < 18 ? (currentDateTime.Hour < 12 ? "Good Morning" : "Good Afternoon") : "Good Evening";
+            Console.WriteLine(salutation);
+        }
+    }
+}
+
+--------------------------------------
+
+using System;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<int, string> wishes = x => x >= 18 ? "Good Evening" : x < 12 ? "Good Morning" : "Good Afternoon";
+            int currentHour = DateTime.Now.Hour;
+            Console.WriteLine(wishes(currentHour));
+        }
+    }
+}
+
+----------------------------------------------
+
+
+using System;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<int, string> funcWishes = w => w < 18 ?  w < 12 ? "Good Morning" : "Good Afternoon" : "Good Evening";
+            Console.WriteLine(funcWishes(DateTime.Now.Hour));
+        }
+    }
+}
+
+------------------------------------------------
+
+

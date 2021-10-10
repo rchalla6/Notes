@@ -1,0 +1,137 @@
+LISTING OUT WORDS HAVING UNIQUE CHARACTERS:
+-------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<string, int, bool> func = (x, y) => x.Distinct().Count() == y;
+            List<string> list = new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            List<string> uniqueWordsList = new List<string>();
+            foreach(string word in list)
+            {
+                if (func(word.ToLower(), word.Length)){
+                    uniqueWordsList.Add(word);
+                }
+            }
+            Console.WriteLine("Unique words list:");
+            foreach(string word in uniqueWordsList)
+            {
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
+
+--------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Testlea
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Given list
+            List<string> givenList = new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            //Function to check unique words
+            Func<string, bool> func = x => x.ToLower().Distinct().Count() == x.Length;
+            //Filterting the unique words
+            List<string> uniqueWordsList = givenList.Where(func).ToList();
+            //Printing unique words
+            Console.WriteLine("Unique words list:");
+            foreach (string word in uniqueWordsList)
+            {
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
+
+-------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            List<string> stringList = 
+                new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            List<string> listOfUniqueCharacterWords = findUniqueWordsInTheList(stringList);
+            Console.WriteLine("List of unique words from the list:");
+            foreach (string s in listOfUniqueCharacterWords)
+            {
+                Console.WriteLine(s);
+            }
+        }
+
+        private static List<string> findUniqueWordsInTheList(List<string> list)
+        {
+            List<string> returnList = new List<string>();
+            Func<string, bool> distinctWordsChecker = 
+                word => word.ToLower().Distinct().Count() == word.Length;
+            Console.WriteLine("Finding the unique character words");
+            returnList = list.Where(distinctWordsChecker).ToList();
+            return returnList;
+        }
+    }
+}
+
+------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ProgrammingTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> wordsList = new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" };
+            Func<string, bool> f = w => w.ToLower().Distinct().Count() == w.Length;
+            List<string> uwl = wordsList.Where(f).ToList();
+            Console.WriteLine("List of unique character words:");
+            foreach (string w in uwl)
+            {
+                Console.WriteLine(w);
+            }
+        }
+    }
+}
+
+---------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Func<string, bool> func = x => x.ToLower().Distinct().Count() == x.Length;
+            List<string> uniqueWordsList = (new List<string> { "Cat", "Houston", "America", "Flags", "Texas", "Labor Day" }).Where(func).ToList();
+            foreach (string uniqueWord in uniqueWordsList)
+                Console.WriteLine(uniqueWord);
+        }
+    }
+}

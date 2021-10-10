@@ -1,0 +1,272 @@
+TUPLES FILTERING AND SORTING:
+-----------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace functionalProgrammingTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> tupleList = new List<Tuple<string, string, int, string>>();
+            Console.WriteLine("Please enter 1 to add the car information or 0 to exit:");
+            int optionEntered = Convert.ToInt32(Console.ReadLine());
+            if(optionEntered == 1)
+            {
+                while(optionEntered == 1)
+                {
+                    Console.WriteLine("Please enter type of car:");
+                    string carType = Console.ReadLine();
+                    Console.WriteLine("Please enter color of car:");
+                    string color = Console.ReadLine();
+                    Console.WriteLine("Please enter number of passenger seats:");
+                    int seatSize = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Please enter engine type of car:");
+                    string engineType = Console.ReadLine();
+                    tupleList.Add(Tuple.Create(carType, color, seatSize, engineType));
+                    Console.WriteLine("Car info added succesfully to the list");
+                    Console.WriteLine("Please enter 1 to add the car information or 0 to exit:");
+                    optionEntered = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            if(tupleList.Count == 0)
+            {
+                Console.WriteLine("No car info is added, Nothing to print");
+            }
+            else
+            {
+                List<Tuple<string, string, int, string>> v6EngineTupleList = tupleList.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                if(v6EngineTupleList.Count == 0)
+                {
+                    Console.WriteLine("No car with V6 Engine, Nothing to print");
+                }
+                else
+                {
+                    List<Tuple<string, string, int, string>> v6EngineTupleColorSortedList = v6EngineTupleList.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("After sorting color of the cars");
+                    foreach (Tuple<string, string, int, string> tuple in v6EngineTupleColorSortedList)
+                    {
+                        Console.WriteLine(tuple.Item2);
+                    }
+                }
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> tupleList = new();
+            //Get car details from user
+            while (true)
+            {
+                Console.WriteLine("1. Add Car info");
+                Console.WriteLine("2. Exit");
+                Console.WriteLine("Please enter your choice:");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1)
+                {
+                    Console.WriteLine("Enter car details");
+                    Console.WriteLine("Type of car:");string carType = Console.ReadLine();
+                    Console.WriteLine("Color of car:");string color = Console.ReadLine();
+                    Console.WriteLine("Number of passenger seats:");int seatSize = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Engine type of car:");string engineType = Console.ReadLine();
+                    tupleList.Add(Tuple.Create(carType, color, seatSize, engineType));
+                    Console.WriteLine("Car added to the list");
+                }
+                else
+                    break;
+            }
+
+            if (tupleList.Count != 0)
+            {
+                //Filter the v6 engine cars
+                List<Tuple<string, string, int, string>> tupleWithV6Engine = tupleList.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                if (tupleWithV6Engine.Count != 0)
+                {
+                    //Sort the filtered v6 engine cars by color
+                    List<Tuple<string, string, int, string>> sorted = tupleWithV6Engine.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("After sorting color of the cars");
+                    foreach (Tuple<string, string, int, string> tuple in sorted)
+                        Console.WriteLine(tuple.Item2);
+                }
+            }
+        }
+    }
+}
+
+----------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FunctionalProgramming 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> ListOfCarInformation = new();
+            Console.WriteLine("Enter number of cars to be added:");
+            int numCars = Convert.ToInt32(Console.ReadLine());
+            for(int i = 1; i <=numCars; i++)
+            {
+                Console.WriteLine("Enter car " + i + " details");
+                Console.WriteLine("Car type:"); 
+                string t = Console.ReadLine();
+                Console.WriteLine("Car color:"); 
+                string c = Console.ReadLine();
+                Console.WriteLine("Car seat size:"); 
+                int s = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Car Engine type:"); 
+                string e = Console.ReadLine();
+                ListOfCarInformation.Add(Tuple.Create(t, c, s, e));
+            }
+
+            if (ListOfCarInformation.Count != 0)
+            {
+                List<Tuple<string, string, int, string>> v6EngineCars = 
+                    ListOfCarInformation.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                Console.WriteLine("V6 engine cars");
+                foreach (Tuple<string, string, int, string> v6EngineCar in v6EngineCars)
+                {
+                    Console.WriteLine(v6EngineCar.Item1 + ","+ v6EngineCar.Item2 + "," + v6EngineCar.Item3 + "," + v6EngineCar.Item4);
+                }
+                if (v6EngineCars.Count != 0)
+                {
+                    List<Tuple<string, string, int, string>> v6EngineCarsSortedByColor = v6EngineCars.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("After sorting color of the cars");
+                    foreach (Tuple<string, string, int, string> sortedRecord in v6EngineCarsSortedByColor)
+                        Console.WriteLine(sortedRecord.Item2);
+                }
+            }
+        }
+    }
+}
+
+-----------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ProgrammingTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> objectCarInfo = new List<Tuple<string, string, int, string>>();
+            while (true)
+            {
+                Console.WriteLine("--------");
+                Console.WriteLine("Options:");
+                Console.WriteLine("--------");
+                Console.WriteLine("1. To add car details");
+                Console.WriteLine("2. Quit");
+                Console.WriteLine("Enter your option:");
+                int option = Convert.ToInt32(Console.ReadLine());
+                if (option == 1)
+                {
+                    Console.WriteLine("Car details");
+                    Console.WriteLine("Type:"); 
+                    string ct = Console.ReadLine();
+                    Console.WriteLine("Color:"); 
+                    string cc = Console.ReadLine();
+                    Console.WriteLine("Passenger seats count:"); 
+                    int ss = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Engine type:"); 
+                    string et = Console.ReadLine();
+                    objectCarInfo.Add(Tuple.Create(ct, cc, ss, et));
+                    Console.WriteLine("Car added list with above details");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (objectCarInfo.Count == 0)
+            {
+                Console.WriteLine("No Data");
+            }
+            else
+            {
+                List<Tuple<string, string, int, string>> v6EngineCarInformation = 
+                    objectCarInfo.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                if (v6EngineCarInformation.Count == 0)
+                {
+                    Console.WriteLine("No V6 Engine car Data");
+                }
+                else
+                {
+                    List<Tuple<string, string, int, string>> sortedV6EngineCarData = v6EngineCarInformation.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("--------------------");
+                    Console.WriteLine("Colors after sorting");
+                    Console.WriteLine("--------------------");
+                    foreach (Tuple<string, string, int, string> item in sortedV6EngineCarData)
+                    {
+                        Console.WriteLine(item.Item2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+----------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApplicationTest 
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, string, int, string>> carsDetails = new();
+            Console.WriteLine("Total cars to be added:"); int TotalCars = Convert.ToInt32(Console.ReadLine());
+            for (int i = 1; i <= TotalCars; i++)
+            {
+                Console.WriteLine("Enter Car " + i + " details");
+                Console.WriteLine("Type:"); string type = Console.ReadLine();
+                Console.WriteLine("Color:"); string color = Console.ReadLine();
+                Console.WriteLine("Seat size:"); int seats = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Engine:"); string engine = Console.ReadLine();
+                carsDetails.Add(Tuple.Create(type, color, seats, engine));
+            }
+
+            if (carsDetails.Count != 0)
+            {
+                List<Tuple<string, string, int, string>> v6EngCars = carsDetails.Where(x => x.Item4.ToLower().Equals("v6")).ToList();
+                if (v6EngCars.Count != 0)
+                {
+                    List<Tuple<string, string, int, string>> v6EngCarsColorSorted = v6EngCars.OrderBy(x => x.Item2).ToList();
+                    Console.WriteLine("Colors sorted:");
+                    foreach (Tuple<string, string, int, string> sortedV6EngCar in v6EngCarsColorSorted)
+                        Console.WriteLine(sortedV6EngCar.Item2);
+                }
+            }
+        }
+    }
+}
+
+-------------------------------------------------------------

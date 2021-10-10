@@ -1,0 +1,347 @@
+Question 1 on options:
+----------------------
+
+=>Reasoning: 
+ 
+Check if a cricket player is eligible for an emerging player award or not in a cricket tournament.
+The program is to find whether a player is eligible for emerging player award or not, depending on the data entered for each player.
+User may enter any values for each player. Options is an useful programming topic here and it can have two states some (having value which
+indicates player is eligible) or None (having no value which indicates player is not eligible).
+Conditions for player to be eligible for an emerging player award:
+- Age should be between 19-21 years old
+If player is batsman:
+- Scored atleast 300 runs
+- Batting average is atleast 30
+If player is bowler:
+- Wickets taken are atleast 10
+- Bowling average is max 15
+
+=>Program:
+
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+
+namespace Exam
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Player player;
+                Console.WriteLine("1. Enter 1 to add player details to check if he is eligible for emerging player award");
+                Console.WriteLine("2. Exit");
+                Console.Write("Enter option:");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1)
+                {
+                    Console.Write("Enter age of the player:");
+                    int age = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Are you entering details of batsman or bowler");
+                    Console.Write("Enter 1 for batsman 2 for bowler:");
+                    int option = Convert.ToInt32(Console.ReadLine());
+                    if (option == 1)
+                    {
+                        Console.Write("Enter number of runs scored:");
+                        int runsScored = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Enter batting average of the player:");
+                        double battingAvg = double.Parse(Console.ReadLine());
+                        player = new Player(true, age, runsScored, battingAvg);
+                    }
+                    else
+                    {
+                        Console.Write("Enter number of wickets taken:");
+                        int wicketsTaken = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Enter bowling average of the player:");
+                        double bowlingAvg = double.Parse(Console.ReadLine());
+                        player = new Player(false, age, wicketsTaken, bowlingAvg);
+                    }
+                    Option<EmergingPlayer> isEmergingPlayer = EmergingPlayer.player(player);
+                    if (isEmergingPlayer.ToString().ToLower().Equals("none"))
+                        Console.WriteLine("Player is not eligible for emerging player award");
+                    else
+                        Console.WriteLine("Professional is eligible for emerging player award");
+                    Console.WriteLine("Given player has value from options result: " + isEmergingPlayer);
+                }
+                else
+                    break;
+            }
+        }
+    }
+    public class EmergingPlayer
+    {
+        public bool isEmergingPlayer { get; }
+        public EmergingPlayer(bool isEmergingPlayer) => this.isEmergingPlayer = isEmergingPlayer;
+
+        public static implicit operator bool(EmergingPlayer ep) => ep.isEmergingPlayer;
+        public static Option<EmergingPlayer> player(Player player) => CheckEmergingPlayer(player) ? Some(new EmergingPlayer(true)) : None;
+        private static bool CheckEmergingPlayer(Player player) => player.age >= 19 && player.age <= 21 &&
+            (player.isBatsMan ? player.runsScored >= 300 && player.battingAverage >= 30 : player.wicketsTaken >= 10 && player.bowlingAverage <= 15);
+    }
+    public class Player
+    {
+        public bool isBatsMan { get; }
+        public int age { get; }
+        public int runsScored { get; }
+        public int wicketsTaken { get; }
+        public double battingAverage { get; }
+        public double bowlingAverage { get; }
+        public Player(bool isBatsMan, int age, int stats, double average)
+        {
+            this.isBatsMan = isBatsMan;
+            this.age = age;
+            if (isBatsMan)
+            {
+                this.runsScored = stats;
+                this.battingAverage = average;
+            }
+            else
+            {
+                this.wicketsTaken = stats;
+                this.bowlingAverage = average;
+            }
+        }
+    }
+}
+
+Question 2 on options:
+----------------------
+
+=>Reasoning:
+
+Check if a professional is eligible for interview or not.
+The program is to find whether a professional is eligible for an interview or not, depending on the skill set entered for each professional.
+User may enter different values for each professional. Options is an useful programming topic here and it can have two states some (having value 
+which indicates professional is eligible) or None (having no value which indicates professional is not eligible).
+Conditions for professional to be eligible for an interview:
+- Experience should be atleast 2 years
+- Should have skill set of C#, functional programming
+
+=>Program:
+
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+using System.Collections.Generic;
+
+namespace Exam
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Professional professional;
+                Console.WriteLine("1. Enter 1 to add professional details to check if eligible for interview");
+                Console.WriteLine("2. Exit");
+                Console.Write("Enter option:");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1)
+                {
+                    Console.Write("Enter total experience of the professional:");
+                    double experience = double.Parse(Console.ReadLine());
+                    List<string> skillSet = new List<string>();
+                    while (true)
+                    {
+                        Console.WriteLine("1. Enter 1 to add new skillset of the professional");
+                        Console.WriteLine("2. To go to add professional screen");
+                        Console.Write("Enter choice:");
+                        int option = Convert.ToInt32(Console.ReadLine());
+                        if (option == 1)
+                        {
+                            Console.Write("Enter skill:");
+                            string skill = Console.ReadLine();
+                            skillSet.Add(skill.ToLower());
+                        }
+                        else
+                            break;
+                    }
+                    professional = new Professional(experience, skillSet);
+                    Option<InterviewEligibleProfessional> isEligible = InterviewEligibleProfessional.interview(professional);
+
+                    if (isEligible.ToString().ToLower().Equals("none"))
+                        Console.WriteLine("Professional is not eligible for an interview");
+                    else
+                        Console.WriteLine("Professional is eligible for an interview");
+                    Console.WriteLine("******Given professional has value from options result: " + isEligible);
+                }
+                else
+                    break;
+            }
+        }
+    }
+    public class InterviewEligibleProfessional
+    {
+        public bool isEligibleForInterview { get; }
+        public InterviewEligibleProfessional(bool isEligible) => isEligibleForInterview = isEligible;
+
+        public static implicit operator bool(InterviewEligibleProfessional iep) => iep.isEligibleForInterview;
+        public static Option<InterviewEligibleProfessional> interview(Professional professional) => CheckEligibleProfessional(professional) ? Some(new InterviewEligibleProfessional(true)) : None;
+        private static bool CheckEligibleProfessional(Professional professional) => professional.experience >= 2 && checkSkillSet(professional.skillSet);
+        private static bool checkSkillSet(List<string> skillSet) => skillSet.Contains("functional programming") && skillSet.Contains("c#");
+    }
+    public class Professional
+    {
+        public double experience { get; }
+        public List<string> skillSet { get; }
+        public Professional(double experience, List<string> skillSet)
+        {
+            this.experience = experience;
+            this.skillSet = skillSet;
+        }
+    }
+}
+
+Question 3 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we buy any items usually all the products are added to the cart and we have to calculate the net amount for all the products. 
+Also we need to find the discount amount based on the discount of the store. Here we can use multicast to find different values using the same
+invoke function in the delegate.
+1. Calculate the total amount
+2. Total discount
+3. Get all the items in the cart
+
+=>Program:
+
+using System;
+using System.Collections.Generic;
+
+namespace Exam
+{
+    public delegate void OrderProcessMethods(int orderId);
+    class Program
+    {
+        static Dictionary<int, Dictionary<string, double>> cartItems = new();
+        static void getShoppingItems(int orderId)
+        {
+            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
+            Console.WriteLine("Items in the cart are:");
+            int index = 1;
+            foreach (var item in shoppingItem)
+                Console.WriteLine("  "+ index + "." + item.Key);
+        }
+        static void getNetAmount(int orderId)
+        {
+            double totalAmount = 0;
+            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
+            foreach (var item in shoppingItem)
+                totalAmount += item.Value;
+            Console.WriteLine("Net amount for the order is:" + totalAmount);
+        }
+        static void getDiscountAmount(int orderId)
+        {
+            double totalAmount = 0;
+            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
+            foreach (var item in shoppingItem)
+                totalAmount += item.Value;
+            Console.WriteLine("Discount amount for the order is:" + totalAmount * (0.15));
+        }
+        static void Main(string[] args)
+        {
+            int index = 0;
+            while (true)
+            {
+                Dictionary<string, double> items;
+                Console.WriteLine("1. Enter 1 to add new order");
+                Console.WriteLine("2. Exit");
+                Console.Write("Please enter your option:");
+                int option = Convert.ToInt32(Console.ReadLine());
+                if(option == 1)
+                {
+                    items = new Dictionary<string, double>();
+                    Console.WriteLine("=>\nPlease enter details of the order");
+                    while (true)
+                    {
+                        Console.WriteLine("=>\n1. Enter 1 to add item to the cart:");
+                        Console.WriteLine("2. Go to main screen");
+                        Console.Write("Please enter your choice:");
+                        int choice = Convert.ToInt32(Console.ReadLine());
+                        if (choice == 1)
+                        {
+                            Console.Write("\nPlease enter product name:");
+                            string productName = Console.ReadLine();
+                            Console.Write("Please enter product price:$");
+                            double productPrice = double.Parse(Console.ReadLine());
+                            items.Add(productName, productPrice);
+                        }
+                        else
+                            break;
+                    }
+                    cartItems.Add(index, items);
+                    Console.WriteLine("=>\nUsing multicast delegate following details are calculated");
+                    OrderProcessMethods orderProcessMethodsDelegate = getShoppingItems;
+                    orderProcessMethodsDelegate += getNetAmount;
+                    orderProcessMethodsDelegate += getDiscountAmount;
+                    orderProcessMethodsDelegate.Invoke(index);
+                }
+                else
+                    break;
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+Question 4 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we subscribe to a newsletter or any source module we usually get emails from the source related to successful subscription. Also along with this
+confirmation email the source will also send other content emails regarding their new releases at once to the subscribers. In this scenario we can make 
+use of the multicast delegates functionality.
+In the following program we will be considering scenario of a person subscribing to a store. When the customer subscribes to the store application then 
+the store will send an email regarding the successful subscription as well as another email regarding the offers running on the store.
+
+=>Program:
+
+using System;
+
+namespace Exam
+{
+    public delegate void ProcessContentStore(string emailId, string content);
+    class Program
+    {
+        static void sendSuccessfulSubscriptionConfirmation(string emailId, string content)
+        {
+            Console.WriteLine("\nSubscription confirmation email is sent to " + emailId + " with content");
+            Console.WriteLine("*****************************************************************************");
+            Console.WriteLine(content);
+            Console.WriteLine("*****************************************************************************");
+
+        }
+        static void sendNewOffersInTheStore(string emailId, string content)
+        {
+            Console.WriteLine("\nNew offers email in the store information is sent to " + emailId + " with content");
+            Console.WriteLine("*****************************************************************************");
+            Console.WriteLine(content);
+            Console.WriteLine("*****************************************************************************");
+        }
+        static void Main(string[] args)
+        {
+            string email="";
+            Console.WriteLine("When the user visits the store there will be an option to subscribe to be store");
+            Console.WriteLine("1. Please enter 1 to subscribe to news letter");
+            Console.WriteLine("2. Exit");
+            Console.Write("Enter your choice:");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            if(choice == 1)
+            {
+                Console.Write("Please enter your email address to subscribe:");
+                email = Console.ReadLine();
+            }
+            ProcessContentStore processContentStoreDelegate = sendSuccessfulSubscriptionConfirmation;
+            processContentStoreDelegate.Invoke(email, "Thank you for subscribing our store, You will receive an email shortly on the new offers on the stores");
+            processContentStoreDelegate += sendNewOffersInTheStore;
+            processContentStoreDelegate -= sendSuccessfulSubscriptionConfirmation;
+            processContentStoreDelegate.Invoke(email, "Following are the new offers in the store: \n 10% on home kitchen products" +
+                "\n 15% on electronics \n 20% on gardening products");
+        }
+    }
+}
