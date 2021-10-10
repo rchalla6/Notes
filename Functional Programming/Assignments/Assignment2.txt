@@ -1,0 +1,164 @@
+1:
+
+using System;
+
+namespace Assignment
+{
+    delegate void myShirtDelegate(string shirtAttr);
+    class First
+    {
+        static void validateSize(string size)
+        {
+            string sizeLower = size.ToLower();
+            if (sizeLower.Equals("small") || sizeLower.Equals("medium") || sizeLower.Equals("large") || sizeLower.Equals("xlarge")
+                || sizeLower.Equals("xxlarge") || sizeLower.Equals("3xlarge"))
+                Console.WriteLine("Size "+ size + " is valid, accepted");
+            else
+                Console.WriteLine("Size " + size + " is InValid, not accepted");
+        }
+        static void validateStyle(string style)
+        {
+            string styleLower = style.ToLower();
+            if (styleLower.Equals("denim") || styleLower.Equals("linen"))
+                Console.WriteLine("Style " + style + " is valid, accepted");
+            else
+                Console.WriteLine("Style " + style + " is InValid, not accepted");
+        }
+
+        static void shirtColor(string color)
+        {
+            Console.WriteLine("Color" + color +" is Valid Color");
+        }
+
+        public static void Main(string[] args)
+        {
+            myShirtDelegate del1 = validateSize;
+            myShirtDelegate del2 = validateStyle;
+            myShirtDelegate del3 = shirtColor;
+            myShirtDelegate multiDeligate = del1;
+            multiDeligate.Invoke("large");multiDeligate.Invoke("big");
+            multiDeligate = del2;
+            multiDeligate.Invoke("denim");multiDeligate.Invoke("golf");
+            multiDeligate = del3;
+            multiDeligate.Invoke("Green");
+        }
+    }
+    
+}
+
+---------------------------------------------------------------------------------------
+
+2:
+
+Following methods defined on IEnumerable inSystem.LINQ.Enumerable* can be a good options for returning Option<T> instead:
+
+1. Average(IEnumerable<Decimal>) and all the overloaded methods 
+2. Average<TSource>(IEnumerable<TSource>, Func<TSource,Nullable<Decimal>>)
+3. Average<TSource>(IEnumerable<TSource>, Func<TSource,Nullable<Double>>)
+4. Average<TSource>(IEnumerable<TSource>, Func<TSource,Nullable<Int32>>)
+5. Average<TSource>(IEnumerable<TSource>, Func<TSource,Nullable<Int64>>)
+6. Average<TSource>(IEnumerable<TSource>, Func<TSource,Nullable<Single>>)
+
+
+----------------------------------------------------------------------------------------
+
+3:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace Assignment
+{
+    class Three
+    {
+        static void Main(string[] args)
+        {
+            Option<LeapYear> caseOne = LeapYear.year(1997);
+            Option<LeapYear> caseTwo = LeapYear.year(2000);
+            Option<LeapYear> caseThree = LeapYear.year(2020);
+
+            Console.WriteLine(caseOne);
+            Console.WriteLine(caseTwo);
+            Console.WriteLine(caseThree);
+        }
+    }
+
+    public class LeapYear
+    {
+        public bool isLeapYear { get; }
+        public LeapYear(bool leapYear) => isLeapYear = leapYear;
+
+        public static implicit operator bool(LeapYear ly) => ly.isLeapYear;
+        public static Option<LeapYear> year(int year) => CheckIsLeapYear(year) ? Some(new LeapYear(true)) : None;
+        private static bool CheckIsLeapYear(int year) => year > 0 && year % 4 == 0;
+    }
+}
+
+
+OR
+
+
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+using System.Collections.Generic;
+
+namespace Assignment
+{
+    class First
+    {
+        public static void Main(string[] args)
+        {
+            string isLeapYear(Option<List<int>> l) => l.Match<string>(
+                               () => "Give some data instead of none",
+                               (li) => string.Join(",", li.FindAll(i => i>0 && i % 4 == 0)) + " are leap years");
+            Option<List<int>> n = None;
+            Option<List<int>> l = Some(new List<int>() { 2020, 1778, 1996, 1997, 1676, 1887});
+            Console.WriteLine(isLeapYear(n));
+            Console.WriteLine(isLeapYear(l));
+        }
+    }
+}
+
+
+OR
+
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+
+namespace Assignment
+{
+    class Three
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.WriteLine("1. Enter 1 to enter year");
+                Console.WriteLine("2. Exit");
+                Console.WriteLine("Enter option:");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if(choice == 1)
+                {
+                    Console.WriteLine("Please enter year to check");
+                    int year = Convert.ToInt32(Console.ReadLine());
+                    Option<LeapYear> caseOne = LeapYear.year(year);
+                    Console.WriteLine("Given year has value: " + caseOne);
+                }else
+                    break;
+            }
+        }
+    }
+
+    public class LeapYear
+    {
+        public bool isLeapYear { get; }
+        public LeapYear(bool leapYear) => isLeapYear = leapYear;
+
+        public static implicit operator bool(LeapYear ly) => ly.isLeapYear;
+        public static Option<LeapYear> year(int year) => CheckIsLeapYear(year) ? Some(new LeapYear(true)) : None;
+        private static bool CheckIsLeapYear(int year) => year > 0 && year % 4 == 0;
+    }
+}

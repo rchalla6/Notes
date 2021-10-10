@@ -1,0 +1,197 @@
+Program 1:
+---------
+
+
+using System;
+using System.Collections.Generic;
+
+namespace Assignment
+{
+    class Program1
+    {
+        static void Main(string[] args)
+        {
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            Console.WriteLine("Please enter province");
+            string province = Console.ReadLine().ToLower();
+            Console.WriteLine("Please enter the birth details of the first child");
+            Console.WriteLine("Name:");
+            string firstChildName = Console.ReadLine();
+            Console.Write("Year:");
+            int year = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Month:");
+            int month = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Date:");
+            int date = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Hour:");
+            int hour = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Minute:");
+            int minute = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Second:");
+            int second = Convert.ToInt32(Console.ReadLine());
+            DateTime firstChildBornTime = new DateTime(year, month, date, hour, minute, second);
+            Console.WriteLine("Please enter details of twin child");
+            Console.WriteLine("Second child Name:");
+            string secondChildName = Console.ReadLine();
+            Console.WriteLine("After how many minutes twin was born:");
+            int timeGap = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("First child (" + firstChildName + ") born time : " + firstChildBornTime.ToString());
+            if (timeZone.IsDaylightSavingTime(new DateTime(year, month, date)) !=
+                 timeZone.IsDaylightSavingTime(new DateTime(year, month, date + 1)))
+            {
+                if (hour == 1 && ((minute + timeGap) >= 60))
+                {
+                    DateTime secondChildDate = findDateTime(year, month, date, hour, minute, second, timeGap, true);
+                    Console.WriteLine("Second child (" + secondChildName + ") born time : " + secondChildDate.ToString());
+                    Console.WriteLine("Due to daylight saving end time, in the birth certificate  the hour of the second child("
+                        + secondChildName + ") has been reduced by 1");
+                    if (province.Equals("mexico") || province.Equals("new mexico") || province.Equals("hawaii") || province.Equals("arizona"))
+                    {
+                        Console.WriteLine("As per certificate " + firstChildName + " is elder than " + secondChildName);
+                        Console.WriteLine("This is correct as daylight end time does not have impact on this area");
+                    }
+                    else
+                    {
+                        Console.WriteLine("So as per certificate " + secondChildName + " is elder than " + firstChildName);
+                        Console.WriteLine("But the correct value should be " + firstChildName + " is elder than " + secondChildName);
+                    }
+                }
+                else
+                {
+                    DateTime secondChildDate = findDateTime(year, month, date, hour, minute, second, timeGap, false);
+                    Console.WriteLine("Second child born time : " + secondChildDate.ToString());
+                    Console.WriteLine("As per certificate " + firstChildName + " is elder than " + secondChildName);
+                    Console.WriteLine("This is correct as daylight end time does not have impact on this");
+                }
+            }
+            else
+            {
+                DateTime secondChildDate = findDateTime(year, month, date, hour, minute, second, timeGap, false);
+                Console.WriteLine("Second child born time : " + secondChildDate.ToString());
+                Console.WriteLine("As per certificate " + firstChildName + " is elder than " + secondChildName);
+                Console.WriteLine("This is correct as daylight end time does not have impact on this");
+            }
+        }
+
+        private static DateTime findDateTime(int year, int month, int date, int hour, int minute, int second, int timeGap, bool v)
+        {
+            if (v)
+            {
+                hour = hour - 1 + ((minute + timeGap) / 60);
+            }
+            else
+            {
+                hour = hour + ((minute + timeGap) / 60);
+            }
+            minute = (minute + timeGap) % 60;
+            return new DateTime(year, month, date, hour, minute, second);
+        }
+    }
+}
+
+
+Program2:
+---------
+
+
+using System;
+using System.Collections.Generic;
+
+namespace Assignment
+{
+    class Program2
+    {
+        public delegate double getProductPriceAfterDiscount(double productPrice);
+        public delegate double getTaxAmount(double productPrice, int choice);
+
+        public double prodPrice(double productPrice)
+        {
+            return 0.9 * productPrice;
+        }
+        public double taxAmount(double productPrice, int choice)
+        {
+            if (choice == 2)
+                return productPrice * .0825;
+            else
+                return 0;
+        }
+        static void Main(string[] args)
+        {
+            Program2 program = new Program2();
+            getProductPriceAfterDiscount objPrintProductPrice = new getProductPriceAfterDiscount(program.prodPrice);
+            getTaxAmount objGetTaxAmount = new getTaxAmount(program.taxAmount);
+            Console.WriteLine("Please enter the product price:");
+            double productPrice = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Please enter 1 to see price before tax or enter other number to see price after tax");
+            int choice = Convert.ToInt32(Console.ReadLine());
+            double priceAfterDiscount = objPrintProductPrice(productPrice);
+            double tax = objGetTaxAmount(priceAfterDiscount, choice);
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Price of the product is : " + productPrice);
+            Console.WriteLine("Discount is 10%");
+            string option = choice == 1 ? "'Before tax'" : "'After tax'";
+            Console.WriteLine("Printing price " + option + " as per option selected");
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Final product price before tax is : " + (priceAfterDiscount + tax));
+        }
+    }
+}
+
+Program3:
+---------
+
+
+using System;
+using System.Collections.Generic;
+
+namespace Assignment
+{
+    class Program3
+    {
+        public delegate void printNamesAlphabetically(List<string> names);
+
+        public void printNames(List<string> names)
+        {
+            Comparison<string> alphabetically = (first, second) => first.CompareTo(second);
+            names.Sort(alphabetically);
+            Console.WriteLine("\nPrinting names after sorting alphabetically and in lower case");
+            Console.WriteLine("\n-------------------------------------------------------------");
+            foreach (var name in names)
+            {
+                Console.WriteLine(name);
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Program3 program = new Program3();
+            printNamesAlphabetically objPrintNames = new printNamesAlphabetically(program.printNames);
+            List<string> names = new List<string>();
+            bool proceed = true;
+            while (proceed)
+            {
+                Console.WriteLine("1. Enter name");
+                Console.WriteLine("2. Quit");
+                Console.WriteLine("Please select your option:");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("Please enter name:");
+                        string name = Console.ReadLine();
+                        names.Add(name.ToLower());
+                        proceed = true;
+                        break;
+                    case 2:
+                        proceed = false;
+                        break;
+                    default: Console.WriteLine("Invalid voice");
+                        proceed = true;
+                        break;
+
+                }
+            }
+            objPrintNames(names);
+        }
+    }
+}
