@@ -1,0 +1,71 @@
+ Question 1 on options:
+----------------------
+
+=>Reasoning: 
+ 
+Generally we will have different type of membership account in stores and they will get different additional discounts based on the membership.
+People with no membership may get the discount of the store but there won't be any additional discount. We can use of options concept here to get
+the final amount after applying the discount based on the membership.
+Here we take an example of a store where a sale is going on and the default discount is 10% of the total amount.
+There are two types of membership:
+Gold membership who will get additional 5% discount on top of sale discount.
+Diamond membership who will get additional 10% discount on top of sale discount. 
+We will be calculating the final amount after applying the discounts based on membership.
+
+=>Program:
+
+
+
+Question 2 on options:
+----------------------
+
+=>Reasoning:
+
+There is a concept called flagship phones in the mobile phones terminology and usually a mobile is called flagship phone of the brand if the phone
+has high level features with most value for money. We can use the options concept to check whether a mobile is flagship phone or not.
+So we consider the following conditions to check whether the phone is flagship phone or not.
+1. If the price is from [200,300) then the features should include
+	- Minimum 6GB Ram
+	- Minimum 32MP Camera Resolution
+	- Minimum 128GB Storage
+
+1. If the price is from [300,500) then the features should include
+	- Minimum 12GB Ram
+	- Minimum 64MP Camera Resolution
+	- Minimum 256GB Storage
+
+=>Program:
+
+
+
+
+Question 3 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+Students or professionals usually add notes while learning something. So we will use this scenario to use multi delegates functionality. One function
+is used to display the content on the screen whereas other function is used to write the content added to the file. We will use multicast delegate 
+functionality to run both these at same time
+1. Display the content on the screen
+2. Append the content to the file in the disk
+
+=>Program:
+
+
+
+Question 4 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we take a home loan to buy a house we usually wants to know the interest amount we pay and the emi payment schedule. So for a given principal
+interest rate and no of years we find the mortgage and the payment schedule using the multicast delegates
+So for a given principal, interest and no of years using delegates we find
+1. Mortgage
+2. Payment schedule
+
+=>Program:
+
+
+
