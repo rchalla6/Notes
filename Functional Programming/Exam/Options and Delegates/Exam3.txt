@@ -119,20 +119,161 @@ mode options with one invoke method using the multicast delegates
 
 =>Program:
 
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace OptionsAndDelegates
+{
+    public delegate void ModesOfTransport(string source, string destination);
+    class Del1
+    {
+        static List<TransportVehicle> air;
+        static List<TransportVehicle> train;
+        static List<TransportVehicle> road;
+        static void getAirModeTimings(string source, string destination)
+        {
+            Console.WriteLine();
+            if (air.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Count > 0)
+            {
+                Console.WriteLine("Air mode transport available from " + source + " to " + destination + " at following times");
+                Console.WriteLine(string.Join("\n", air.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Select(x=> x.time).ToArray()));
+            }
+            else 
+                Console.WriteLine("No vehicles found via air");
+        }
+        static void getTrainModeTimings(string source, string destination)
+        {
+            Console.WriteLine();
+            if (train.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Count > 0)
+            {
+                Console.WriteLine("Train mode transport available from " + source + " to " + destination + " at following times");
+                Console.WriteLine(string.Join("\n", train.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Select(x => x.time).ToArray()));
+            }
+            else
+                Console.WriteLine("No vehicles found via train");
+        }
+        static void getRoadModeTimings(string source, string destination)
+        {
+            Console.WriteLine();
+            if (road.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Count > 0)
+            {
+                Console.WriteLine("Road mode transport available from " + source + " to " + destination + " at following times");
+                Console.WriteLine(string.Join("\n", road.FindAll(a => a.source.Equals(source) && a.destination.Equals(destination)).Select(x => x.time).ToArray()));
+            }
+            else
+                Console.WriteLine("No vehicles found via road");
+        }
+        static void Main(string[] args)
+        {
+            generateStaticAirData();
+            generateStaticTrainData();
+            generateStaticRoadData();
+            Console.WriteLine("Please enter source and destination from places chicago, new york and washington");
+            Console.Write("Please enter source: ");
+            string source = Console.ReadLine();
+            Console.Write("Please enter destination: ");
+            string destination = Console.ReadLine();
+            Console.WriteLine("\n Using multiCast delegates all the available vehicles via air, train or road are checked with a single invoke call\n");
+            ModesOfTransport modesOfTrasnportDelegate = getAirModeTimings;
+            modesOfTrasnportDelegate += getTrainModeTimings;
+            modesOfTrasnportDelegate += getRoadModeTimings;
+            modesOfTrasnportDelegate.Invoke(source, destination);
+        }
+
+        private static void generateStaticRoadData()
+        {
+            road = new List<TransportVehicle>
+            {
+                new TransportVehicle("chicago", "washington", new DateTime(2021, 10, 11, 21, 10, 0), 76),
+                new TransportVehicle("chicago", "washington", new DateTime(2021, 10, 11, 6, 30, 0), 55),
+                new TransportVehicle("new york", "chicago", new DateTime(2021, 10, 11, 23, 0, 0), 86),
+                new TransportVehicle("washington", "chicago", new DateTime(2021, 10, 11, 17, 50, 0), 67),
+                new TransportVehicle("new york", "washington", new DateTime(2021, 10, 11, 6, 10, 0), 25),
+                new TransportVehicle("washington", "new york", new DateTime(2021, 10, 11, 9, 50, 0), 24)
+            };
+        }
+
+        private static void generateStaticTrainData()
+        {
+            train = new List<TransportVehicle>
+            {
+                new TransportVehicle("chicago", "new york", new DateTime(2021, 10, 11, 15, 10, 0), 56),
+                new TransportVehicle("chicago", "new york", new DateTime(2021, 10, 11, 5, 0, 0), 45),
+                new TransportVehicle("chicago", "washington", new DateTime(2021, 10, 11, 20, 30, 0), 52),
+                new TransportVehicle("new york", "chicago", new DateTime(2021, 10, 11, 3, 0, 0), 54),
+                new TransportVehicle("new york", "chicago", new DateTime(2021, 10, 11, 14, 30, 0), 46),
+                new TransportVehicle("washington", "chicago", new DateTime(2021, 10, 11, 17, 50, 0), 39),
+            };
+        }
+
+        private static void generateStaticAirData()
+        {
+            air = new List<TransportVehicle>
+            {
+                new TransportVehicle("chicago", "new york", new DateTime(2021, 10, 11, 5, 10, 0), 80),
+                new TransportVehicle("chicago", "new york", new DateTime(2021, 10, 11, 15, 0, 0), 95),
+                new TransportVehicle("chicago", "washington", new DateTime(2021, 10, 11, 10, 30, 0), 75),
+                new TransportVehicle("new york", "chicago", new DateTime(2021, 10, 11, 13, 0, 0), 72),
+                new TransportVehicle("new york", "chicago", new DateTime(2021, 10, 11, 4, 30, 0), 78),
+                new TransportVehicle("washington", "chicago", new DateTime(2021, 10, 11, 7, 50, 0), 59),
+                new TransportVehicle("new york", "washington", new DateTime(2021, 10, 11, 11, 10, 0), 35),
+                new TransportVehicle("washington", "new york", new DateTime(2021, 10, 11, 18, 50, 0), 32)
+            };
+        }
+    }
+    public class TransportVehicle
+    {
+        public string source { get; set; }
+        public string destination { get; set; }
+        public DateTime time { get; set; }
+        public double cost { get; set; }
+        public TransportVehicle(string so, string dest, DateTime time, double cost)
+        {
+            this.source = so;
+            this.destination = dest;
+            this.time = time;
+            this.cost = cost;
+        }
+    }
+}
 
 Question 4 on multicast delegates:
 ----------------------------------
 
 =>Reasoning: 
 
-When we take a home loan to buy a house we usually wants to know the interest amount we pay and the emi payment schedule. So for a given principal
-interest rate and no of years we find the mortgage and the payment schedule using the multicast delegates
-So for a given principal, interest and no of years using delegates we find
-1. Mortgage
-2. Payment schedule
+When we buy any land we want to know the area of the land along with perimeter as well as the cost of the total area when the cost of each square feet
+is given. We can use multiCast delegates to calculate all the different attributes with a single invoke using the inputs and display the values.
+In the program we will calculate area, perimeter and total cost for a given user input of length and width
 
 =>Program:
 
+using System;
 
-
+namespace OptionsAndDelegates
+{
+    public delegate void RealEstateAttributes(double length, double breadth);
+    class Del2
+    {
+        static double priceForEachSquareFeet;
+        static void calculateArea(double length, double width) => Console.WriteLine("Area of the land is: " + length * width + " square feet");
+        static void calculatePerimeter(double length, double width) => Console.WriteLine("Area of the land is: " + 2*(length + width) + " feet");
+        static void calculateCost(double length, double width) => Console.WriteLine("Total cost of the land is: $" + length * width * priceForEachSquareFeet);
+        static void Main(string[] args)
+        {
+            Console.Write("Please enter length of the land in feet: ");
+            double length = double.Parse(Console.ReadLine());
+            Console.Write("Please enter width of the land in feet: ");
+            double width = double.Parse(Console.ReadLine());
+            Console.Write("Please enter price for each square feet: $");
+            priceForEachSquareFeet = double.Parse(Console.ReadLine());
+            Console.WriteLine("\n Using multiCast delegates we will calculate area, perimeter and cost in a single invoke call\n");
+            RealEstateAttributes realEstateLand = calculateArea;
+            realEstateLand += calculatePerimeter;
+            realEstateLand += calculateCost;
+            realEstateLand.Invoke(length, width);
+        }
+    }
+}
