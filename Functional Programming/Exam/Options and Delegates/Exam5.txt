@@ -1,0 +1,89 @@
+ Question 1 on options:
+----------------------
+
+=>Reasoning: 
+ 
+While we withdraw money we need to have sufficient balance in account for that to be considered as eligible transaction. Customer can enter any value
+while withdrawing the money. We need to check if that is a valid number as well as the balance is sufficient for the withdrawal transaction. We will 
+use options concept to achieve this where we return some (when it is an eligible transaction) or none (if it is not eligible transaction) 
+
+=>Program:
+
+
+
+Question 2 on options:
+----------------------
+
+=>Reasoning:
+
+Banks will approve loan based on the credit score. So for a given credit score we need to provide whether the customer is eligible for loan or not.
+Users can provide any value for the credit score. We need to validate the credit score and provide the response.
+For the following program we consider credit score to be atleast 670 for loan to be approved.
+
+=>Program:
+
+
+
+Question 3 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we prepare any dish we need a set of ingredients and based on the quantity of the preparation of dish the quantity of ingredients changes. 
+For the following program we will take the preparation of chicken pickle dish and find the quantity of ingredients required for the quantity of
+preparation of pickle given by user.
+For 1 kg preparation of pickle we consider the following amount of quantity for each ingredient
+
+2 table spoon turmeric powder
+2 cups chilli powder
+1/2kg mustard oil
+1cup lemon juice
+100g ginger
+
+=>Program:
+
+
+
+Question 4 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+Generally we have 2 types of interest calculations simple interest and compound interest and we want to know the values of these 2 types for a given
+principal, rate of interest and time. 
+For the following program we will calculate simple interest and compound interest in one invoke call by taking the inputs from user
+
+=>Program:
+
+using System;
+
+namespace FinalExamination
+{
+    public delegate void CalculateInterest(double principalAmount, double rateOfInterest, int time);
+    class SimpleInterestAndCompoundInterest
+    {
+        public static double priceForEachSquareFeet;
+        public static Func<double, double, int, double> funcSI = (principalAmount, rateOfInterest, time) => (principalAmount * (time/12) * rateOfInterest)/100;
+        public static Func<double, double, int, double> funcCI = (principalAmount, rateOfInterest, time) => principalAmount * Math.Pow(1 + rateOfInterest/100, (time / 12)) - principalAmount;
+        public static void calculateSimpleInterest(double principalAmount, double rateOfInterest, int time) 
+        {
+            Console.WriteLine("Simple Interest: " + Math.Round(funcSI(principalAmount, rateOfInterest, time),3));
+        }
+        public static void calculateCompoundInterest(double principalAmount, double rateOfInterest, int time)
+        {
+            Console.WriteLine("Compound Interest: " + Math.Round(funcCI(principalAmount, rateOfInterest, time), 3));
+        }
+        public static void Main(string[] args)
+        {
+            Console.Write("Enter principal amount: ");
+            double principalAmount = double.Parse(Console.ReadLine());
+            Console.Write("Enter rate of interest per year: ");
+            double rateOfInterest = double.Parse(Console.ReadLine());
+            Console.Write("Enter duration in months: ");
+            int months = Convert.ToInt32(Console.ReadLine());
+            CalculateInterest calDiffInterest = calculateSimpleInterest;
+            calDiffInterest += calculateCompoundInterest;
+            calDiffInterest.Invoke(principalAmount, rateOfInterest, months);
+        }
+    }
+}
