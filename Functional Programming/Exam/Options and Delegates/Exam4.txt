@@ -59,24 +59,65 @@ Question 2 on options:
 
 =>Reasoning:
 
-A number is called prime when the number is divided and itself. So we will find if the number is prime based on the integer provided. User may 
-enter both valid and invalid integer values. Options can be used to send some value (if it is a prime) or none (if the integer is invalid or not
-prime).
+Banks will approve loan based on the credit score. So for a given credit score we need to provide whether the customer is eligible for loan or not.
+Users can provide any value for the credit score. We need to validate the credit score and provide the response.
+For the following program we consider credit score to be atleast 670 for loan to be approved.
 
 =>Program:
 
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+using System.Collections.Generic;
 
+namespace FinalExam
+{
+    class Progam2OnOptions
+    {
+        static void Main(string[] args)
+        {
+            List<int> creditScores = new() { 554,765,496,802,599,-800 };
+            foreach(int creditScore in creditScores)
+            {
+                Option<LoanApproved> loan = LoanApproved.checkCreditScoreForLoanApproval(creditScore);
+                if (loan.ToString().ToLower().Equals("none"))
+                    Console.WriteLine("Credit Score " + creditScore + " is not eligible for loan dispersal");
+                else
+                    Console.WriteLine("Credit Score " + creditScore + " is eligible for loan dispersal");
+            }
+        }
+    }
+    public class LoanApproved
+    {
+        public bool IsLoanApproved { get; }
+        public LoanApproved(bool isEligible) => IsLoanApproved = isEligible;
+
+        public static implicit operator bool(LoanApproved loanApproved) => loanApproved.IsLoanApproved;
+
+        public static Func<int, Option<LoanApproved>> checkCreditScoreForLoanApproval = (credScore) => isValidCredScore(credScore) && isCredScoreSufficient(credScore) ? Some(new LoanApproved(true)) : None;
+        
+        static readonly Func<int, bool> isValidCredScore = score => score > 0;
+        
+        static readonly Func<int, bool> isCredScoreSufficient = score => score >= 670;
+    }
+}
 
 Question 3 on multicast delegates:
 ----------------------------------
 
 =>Reasoning: 
 
-When we travel we usually search for different modes of transport from source to destination. We will use multicast delegates for this scenario where
-we call different methods with source and destination to get different type of transport available. 
-In the following program we will consider 3 modes of transport. Road, train and air. We will available vehicles for each mode in each individual list
-and when we search available transport from source to destination we will have different calls to individual methods to get the corresponding transport
-mode options with one invoke method using the multicast delegates
+When we prepare any dish we need a set of ingredients and based on the quantity of the preparation of dish the quantity of ingredients changes. 
+For the following program we will take the preparation of chicken pickle dish and find the quantity of ingredients required for the quantity of
+preparation of pickle given by user.
+For 1 kg preparation of pickle we consider the following amount of quantity for each ingredient
+
+2 table spoon turmeric powder
+2 cups chilli powder
+1/2kg mustard oil
+3/4th cup salt
+1cup lemon juice
+100g ginger
 
 =>Program:
 
