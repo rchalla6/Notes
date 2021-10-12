@@ -1,0 +1,96 @@
+ Question 1 on options:
+----------------------
+
+=>Reasoning: 
+ 
+While we withdraw money we need to have sufficient balance in account for that to be considered as eligible transaction. Customer can enter any value
+while withdrawing the money. We need to check if that is a valid number as well as the balance is sufficient for the withdrawal transaction. We will 
+use options concept to achieve this where we return some (when it is an eligible transaction) or none (if it is not eligible transaction) 
+
+=>Program:
+
+using LaYumba.Functional;
+using static LaYumba.Functional.F;
+using System;
+using System.Collections.Generic;
+
+namespace FinalExam
+{
+    class Progam1OnOptions
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string, double>> bankCustomerDetails = new List<Tuple<string, double>>
+            {
+                Tuple.Create("1234",25000.0),
+                Tuple.Create("2345",32000.0),
+                Tuple.Create("3456",2211.0),
+                Tuple.Create("4567",10000.0)
+            };
+            Console.WriteLine("Enter your bank account:");
+            string bankAccount = Console.ReadLine();
+            Console.WriteLine("Enter how much money you want to withdraw:");
+            double withdrawAmount = double.Parse(Console.ReadLine());
+            Option<IsEligibleTransaction> transaction = IsEligibleTransaction.transaction(bankAccount,withdrawAmount,bankCustomerDetails);
+            if (transaction.ToString().ToLower().Equals("none"))
+                Console.WriteLine("Not an eligible transaction");
+            else
+                Console.WriteLine("Eligible transaction");
+            Console.WriteLine("Options result: " + transaction);
+        }
+    }
+    public class IsEligibleTransaction
+    {
+        public bool isEligibleTrans { get; }
+        public IsEligibleTransaction(bool isEligible) => isEligibleTrans = isEligible;
+        public static implicit operator bool(IsEligibleTransaction elig) => elig.isEligibleTrans;
+        public static Func<string,double, List<Tuple<string, double>>, Option<IsEligibleTransaction>> transaction = 
+            (account, amount, bankAccounts) => isValidWithdrawalAmount(amount) && isValidAccount(account, bankAccounts) && isValidTransaction(account, amount, bankAccounts) ? Some(new IsEligibleTransaction(true)) : None;
+        static Func<double, bool> isValidWithdrawalAmount = amount => amount > 0;
+        static Func<string, List<Tuple<string, double>>, bool> isValidAccount = (account, accounts ) 
+            => accounts.FindAll(acc => acc.Item1.Equals(account)).Count > 0;
+        static Func<string, double, List<Tuple<string, double>>, bool> isValidTransaction = (account, amount, accounts)
+            => accounts.FindAll(acc => acc.Item1.Equals(account) && acc.Item2 > amount).Count > 0;
+    }
+}
+
+Question 2 on options:
+----------------------
+
+=>Reasoning:
+
+A number is called prime when the number is divided and itself. So we will find if the number is prime based on the integer provided. User may 
+enter both valid and invalid integer values. Options can be used to send some value (if it is a prime) or none (if the integer is invalid or not
+prime).
+
+=>Program:
+
+
+
+Question 3 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we travel we usually search for different modes of transport from source to destination. We will use multicast delegates for this scenario where
+we call different methods with source and destination to get different type of transport available. 
+In the following program we will consider 3 modes of transport. Road, train and air. We will available vehicles for each mode in each individual list
+and when we search available transport from source to destination we will have different calls to individual methods to get the corresponding transport
+mode options with one invoke method using the multicast delegates
+
+=>Program:
+
+
+
+Question 4 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we buy any land we want to know the area of the land along with perimeter as well as the cost of the total area when the cost of each square feet
+is given. We can use multiCast delegates to calculate all the different attributes with a single invoke using the inputs and display the values.
+In the program we will calculate area, perimeter and total cost for a given user input of length and width
+
+=>Program:
+
+
