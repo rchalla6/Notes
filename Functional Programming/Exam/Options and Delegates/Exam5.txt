@@ -14,10 +14,58 @@ Question 2 on options:
 
 =>Reasoning:
 
-
+In schools or colleges students will get scholarship based on income or grades. When we get the application forms we may get valid or
+invalid data. So we use the concept of options to validate whether the student is eligible for scholarship or not.
+Eligibility for scholarship : income should not be more than $50000 per year and grade should be A or A+
 
 =>Program:
 
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static LaYumba.Functional.F;
+
+namespace FinalExamination
+{
+    class StudentScholarship
+    {
+        public static void Main(string[] args)
+        {
+            List<Tuple<string, int, string>> students = new()
+            {
+                Tuple.Create("Cristiano", 40000, "A"),
+                Tuple.Create("Messi", 56000, "A+"),
+                Tuple.Create("David", -20000, "A+"),
+                Tuple.Create("Robert", 48000,"A+")
+            };
+
+            foreach (var stud in students)
+            {
+                Option<Student> isEmergingPlayer = Student.functionScholarshipEligible(stud);
+                if (isEmergingPlayer.ToString().ToLower().Equals("none"))
+                    Console.WriteLine(stud.Item1 + " is not eligible for scholarship");
+                else
+                    Console.WriteLine(stud.Item1 + " is eligible for scholarship");
+            }
+        }
+        public class Student
+        {
+            public bool isElgibleForScholarship { get; }
+            public Student(bool isEligible) => this.isElgibleForScholarship = isEligible;
+
+            public static implicit operator bool(Student ep) => ep.isElgibleForScholarship;
+
+            public static Func<Tuple<string, int, string>, Option<Student>> functionScholarshipEligible = student => 
+                    isValidIncome(student.Item2) && isEligible(student) ? Some(new Student(true)) : None;
+
+            static Func<int, bool> isValidIncome = (income) => income >= 0;
+
+            static Func<Tuple<string, int, string>, bool> isEligible = student => student.Item2 <= 50000 && 
+                                (student.Item3.ToLower().Equals("a") || student.Item3.ToLower().Equals("a+"));
+        }
+    }
+}
 
 
 Question 3 on multicast delegates:
