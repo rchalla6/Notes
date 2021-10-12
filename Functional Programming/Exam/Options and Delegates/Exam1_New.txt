@@ -145,73 +145,47 @@ namespace Exam
     public delegate void OrderProcessMethods(int orderId);
     class Program
     {
-        static Dictionary<int, Dictionary<string, double>> cartItems = new();
+        static List<Tuple<int, Tuple<string, double>>> listOfOrderTuples;
         static void getShoppingItems(int orderId)
         {
-            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
-            Console.WriteLine("Items in the cart are:");
-            int index = 1;
-            foreach (var item in shoppingItem)
-                Console.WriteLine("  "+ index + "." + item.Key);
+            List<Tuple<int, Tuple<string, double>>> tuples = listOfOrderTuples.FindAll(x => x.Item1 == orderId);
+            Console.WriteLine("\nItems in the cart for orderId: " + orderId);
+            foreach (var tuple in tuples)
+                Console.WriteLine(tuple.Item2.Item1);
         }
         static void getNetAmount(int orderId)
         {
             double totalAmount = 0;
-            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
-            foreach (var item in shoppingItem)
-                totalAmount += item.Value;
-            Console.WriteLine("Net amount for the order is:" + totalAmount);
+            List<Tuple<int, Tuple<string, double>>> tuples = listOfOrderTuples.FindAll(x => x.Item1 == orderId);
+            foreach (var tuple in tuples)
+                totalAmount += tuple.Item2.Item2;
+            Console.WriteLine("Net amount for the order is:" + Math.Round(totalAmount, 2));
         }
         static void getDiscountAmount(int orderId)
         {
             double totalAmount = 0;
-            Dictionary<string, double> shoppingItem = cartItems.GetValueOrDefault(orderId);
-            foreach (var item in shoppingItem)
-                totalAmount += item.Value;
-            Console.WriteLine("Discount amount for the order is:" + totalAmount * (0.15));
+            List<Tuple<int, Tuple<string, double>>> tuples = listOfOrderTuples.FindAll(x => x.Item1 == orderId);
+            foreach (var tuple in tuples)
+                totalAmount += tuple.Item2.Item2;
+            Console.WriteLine("Discount amount for the order is:" + Math.Round(totalAmount * (0.15), 2));
         }
         static void Main(string[] args)
         {
-            int index = 0;
-            while (true)
+            listOfOrderTuples = new List<Tuple<int, Tuple<string, double>>>
             {
-                Dictionary<string, double> items;
-                Console.WriteLine("1. Enter 1 to add new order");
-                Console.WriteLine("2. Exit");
-                Console.Write("Please enter your option:");
-                int option = Convert.ToInt32(Console.ReadLine());
-                if(option == 1)
-                {
-                    items = new Dictionary<string, double>();
-                    Console.WriteLine("=>\nPlease enter details of the order");
-                    while (true)
-                    {
-                        Console.WriteLine("=>\n1. Enter 1 to add item to the cart:");
-                        Console.WriteLine("2. Go to main screen");
-                        Console.Write("Please enter your choice:");
-                        int choice = Convert.ToInt32(Console.ReadLine());
-                        if (choice == 1)
-                        {
-                            Console.Write("\nPlease enter product name:");
-                            string productName = Console.ReadLine();
-                            Console.Write("Please enter product price:$");
-                            double productPrice = double.Parse(Console.ReadLine());
-                            items.Add(productName, productPrice);
-                        }
-                        else
-                            break;
-                    }
-                    cartItems.Add(index, items);
-                    Console.WriteLine("=>\nUsing multicast delegate following details are calculated");
-                    OrderProcessMethods orderProcessMethodsDelegate = getShoppingItems;
-                    orderProcessMethodsDelegate += getNetAmount;
-                    orderProcessMethodsDelegate += getDiscountAmount;
-                    orderProcessMethodsDelegate.Invoke(index);
-                }
-                else
-                    break;
-                Console.WriteLine();
-            }
+                Tuple.Create(1, Tuple.Create("item1", 12.99)),
+                Tuple.Create(1, Tuple.Create("item2", 13.00)),
+                Tuple.Create(2, Tuple.Create("item1", 11.50)),
+                Tuple.Create(2, Tuple.Create("item2", 8.99)),
+                Tuple.Create(2, Tuple.Create("item3", 18.99))
+            };
+
+            Console.WriteLine("Using multicast delegate following details are calculated\n=>");
+            OrderProcessMethods orderProcessMethodsDelegate = getShoppingItems;
+            orderProcessMethodsDelegate += getNetAmount;
+            orderProcessMethodsDelegate += getDiscountAmount;
+            orderProcessMethodsDelegate.Invoke(1);
+            orderProcessMethodsDelegate.Invoke(2);
         }
     }
 }
@@ -236,30 +210,25 @@ namespace Exam
     public delegate void ProcessContentStore(string emailId, string content);
     class Program
     {
+        static string stars = "*****************************************************************************";
+        static Func<string,string, string, string> func = (header,emailId, content) => string.Join("\n", header, stars, content, stars);
         static void sendSuccessfulSubscriptionConfirmation(string emailId, string content)
         {
-            Console.WriteLine("\nSubscription confirmation email is sent to " + emailId + " with content");
-            Console.WriteLine("*****************************************************************************");
-            Console.WriteLine(content);
-            Console.WriteLine("*****************************************************************************");
-
+            string header = "Subscription confirmation email is sent with content";
+            Console.WriteLine(func(header,emailId, content));
         }
         static void sendNewOffersInTheStore(string emailId, string content)
         {
-            Console.WriteLine("\nNew offers email in the store information is sent to " + emailId + " with content");
-            Console.WriteLine("*****************************************************************************");
-            Console.WriteLine(content);
-            Console.WriteLine("*****************************************************************************");
+            string header = "New offers email in the store information is sent with content";
+            Console.WriteLine(func(header, emailId, content));
         }
         static void Main(string[] args)
         {
-            string email="";
+            string email = "";
             Console.WriteLine("When the user visits the store there will be an option to subscribe to be store");
-            Console.WriteLine("1. Please enter 1 to subscribe to news letter");
-            Console.WriteLine("2. Exit");
-            Console.Write("Enter your choice:");
+            Console.WriteLine("1. Please enter 1 to subscribe to news letter\n2. Exit\n\nEnter your choice:");
             int choice = Convert.ToInt32(Console.ReadLine());
-            if(choice == 1)
+            if (choice == 1)
             {
                 Console.Write("Please enter your email address to subscribe:");
                 email = Console.ReadLine();

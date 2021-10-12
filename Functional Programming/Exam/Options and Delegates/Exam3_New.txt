@@ -1,0 +1,218 @@
+ Question 1 on options:
+----------------------
+
+=>Reasoning: 
+ 
+Based on the BMI of the person we can check whether he/she falls in obesity range. If the BMI is 30.0 or higher, then it falls under the obesity range.
+We use the options concept to return something when the person falls under obesity range based on the given weight and height.
+For the program we are taking a list of person objects with height and weight and we will return the people who fall under obesity range.  
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static LaYumba.Functional.F;
+
+namespace OptionsAndDelegates
+{
+    class Opt1
+    {
+        static void Main(string[] args)
+        {
+            string peopleFallingUnderObesityCategory(Option<List<Tuple<string, double, double>>> person)
+                => person.Match<string>(
+                    () => "Provide valid input",
+                    (pers) => string.Join(",",
+                                pers.FindAll(per => (per.Item2 > 0 && per.Item3 > 0) && (per.Item3 / ((per.Item2 / 100) * (per.Item2 / 100)) >= 30))
+                                .Select(x => x.Item1).ToArray()) + " people fall under obesity category"
+                );
+
+            List<Tuple<string, double, double>> tuplePersonList = new List<Tuple<string, double, double>>();
+            tuplePersonList.Add(Tuple.Create("\"James\"", 160.0, 80.0));
+            tuplePersonList.Add(Tuple.Create("\"Steve\"", 172.0, 68.0));
+            tuplePersonList.Add(Tuple.Create("\"Leo\"", -145.0, 79.0));
+            tuplePersonList.Add(Tuple.Create("\"Kripa\"", 153.0, 52.0));
+            tuplePersonList.Add(Tuple.Create("\"Ben\"", 158.0, 58.0));
+
+            Console.WriteLine("Obesity measured based on BMI using options:");
+            Option<List<Tuple<string, double, double>>> mob = Some(tuplePersonList);
+            Console.WriteLine(peopleFallingUnderObesityCategory(mob));
+        }
+    }
+}
+
+Question 2 on options:
+----------------------
+
+=>Reasoning:
+
+A number is called prime when the number is divided and itself. So we will find if the number is prime based on the integer provided. User may 
+enter both valid and invalid integer values. Options can be used to send some value (if it is a prime) or none (if the integer is invalid or not
+prime).
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using static LaYumba.Functional.F;
+
+namespace OptionsAndDelegates
+{
+    class Opt2
+    {
+        static void Main(string[] args)
+        {
+            List<int> numbersList = new() { 20, 21, 25, 40, 41, 42, 60, 67, 69, 80 };
+            foreach (int number in numbersList)
+            {
+                Option<IsPrimeNumber> firstNumber = IsPrimeNumber.Number(number);
+                if (!firstNumber.ToString().ToLower().Equals("none"))
+                    Console.WriteLine(number + " is prime number");
+            }
+        }
+    }
+    public class IsPrimeNumber
+    {
+        public bool IsPrime { get; }
+        public IsPrimeNumber(bool prime) => IsPrime = prime;
+
+        public static implicit operator bool(IsPrimeNumber pr) => pr.IsPrime;
+
+        public static Func<int,Option<IsPrimeNumber>> Number = number => validInteger(number) && checkIsPrimeNumber(number) ? Some(new IsPrimeNumber(true)) : None;
+        
+        static Func<int, bool> validInteger = number => number > 1;
+        private static bool checkIsPrimeNumber(int number)
+        {
+            for (int a = 2; a <= number / 2; a++)
+                if (number % a == 0)
+                    return false;
+            return true;
+        }
+    }
+}
+
+
+Question 3 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we travel we usually search for different modes of transport from source to destination. We will use multicast delegates for this scenario where
+we call different methods with source and destination to get different type of transport available. 
+In the following program we will consider 3 modes of transport. Road, train and air. We will available vehicles for each mode in each individual list
+and when we search available transport from source to destination we will have different calls to individual methods to get the corresponding transport
+mode options with one invoke method using the multicast delegates
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace OptionsAndDelegates
+{
+    public delegate void ModesOfTransport(string source, string destination);
+    class Del1
+    {
+        static List<Tuple<string, Tuple<string, string, DateTime>>> transport;
+        static Func<string, string, string, string> getAvaiOpt = (mode, src, dest) => string.Join("\n", transport.FindAll(x => x.Item1.Equals(mode) && x.Item2.Item1.Equals(src) && x.Item2.Item2.Equals(dest)).Select(x => x.Item2.Item3).ToArray());
+        static void getAirModeTimings(string source, string destination)
+        {
+            if (transport.FindAll(x=>x.Item1.Equals("air") && x.Item2.Item1.Equals(source) && x.Item2.Item2.Equals(destination)).Count > 0)
+                Console.WriteLine("\nAir mode transport available from " + source + " to " + destination + " at following times\n" + getAvaiOpt("air", source, destination));
+            else
+                Console.WriteLine("\nNo vehicles found via air");
+        }
+        static void getTrainModeTimings(string source, string destination)
+        {
+            if (transport.FindAll(x => x.Item1.Equals("train") && x.Item2.Item1.Equals(source) && x.Item2.Item2.Equals(destination)).Count > 0)
+                Console.WriteLine("\nTrain mode transport available from " + source + " to " + destination + " at following times\n" + getAvaiOpt("train", source, destination));
+            else
+                Console.WriteLine("\nNo vehicles found via train");
+        }
+        static void getRoadModeTimings(string source, string destination)
+        {
+            Console.WriteLine();
+            if (transport.FindAll(x => x.Item1.Equals("road") && x.Item2.Item1.Equals(source) && x.Item2.Item2.Equals(destination)).Count > 0)
+                Console.WriteLine("Road mode transport available from " + source + " to " + destination + " at following times\n"+ getAvaiOpt("road", source, destination));
+            else
+                Console.WriteLine("\nNo vehicles found via road");
+        }
+        static void Main(string[] args)
+        {
+            transport = new List<Tuple<string, Tuple<string, string, DateTime>>>
+            {
+                Tuple.Create("air", Tuple.Create("chicago", "new york", new DateTime(2021, 10, 11, 5, 10, 0))),
+                Tuple.Create("air", Tuple.Create("chicago", "new york", new DateTime(2021, 10, 11, 15, 0, 0))),
+                Tuple.Create("air", Tuple.Create("chicago", "washington", new DateTime(2021, 10, 11, 10, 30, 0))),
+                Tuple.Create("air", Tuple.Create("new york", "chicago", new DateTime(2021, 10, 11, 13, 0, 0))),
+                Tuple.Create("air", Tuple.Create("new york", "chicago", new DateTime(2021, 10, 11, 4, 30, 0))),
+                Tuple.Create("train", Tuple.Create("chicago", "new york", new DateTime(2021, 10, 11, 15, 10, 0))),
+                Tuple.Create("train", Tuple.Create("chicago", "new york", new DateTime(2021, 10, 11, 5, 0, 0))),
+                Tuple.Create("train", Tuple.Create("chicago", "washington", new DateTime(2021, 10, 11, 20, 30, 0))),
+                Tuple.Create("train", Tuple.Create("new york", "chicago", new DateTime(2021, 10, 11, 3, 0, 0))),
+                Tuple.Create("train", Tuple.Create("washington", "chicago", new DateTime(2021, 10, 11, 17, 50, 0))),
+                Tuple.Create("road", Tuple.Create("chicago", "washington", new DateTime(2021, 10, 11, 21, 10, 0))),
+                Tuple.Create("road", Tuple.Create("chicago", "washington", new DateTime(2021, 10, 11, 6, 30, 0))),
+                Tuple.Create("road", Tuple.Create("washington", "chicago", new DateTime(2021, 10, 11, 17, 50, 0))),
+                Tuple.Create("road", Tuple.Create("new york", "washington", new DateTime(2021, 10, 11, 6, 10, 0)))
+            };
+            Console.WriteLine("Please enter source and destination from places chicago, new york and washington");
+            Console.Write("Please enter source: ");
+            string source = Console.ReadLine();
+            Console.Write("Please enter destination: ");
+            string destination = Console.ReadLine();
+            Console.WriteLine("\nUsing multiCast delegates all the available vehicles via air, train or road are checked with a single invoke call");
+            ModesOfTransport modesOfTrasnportDelegate = getAirModeTimings;
+            modesOfTrasnportDelegate += getTrainModeTimings;
+            modesOfTrasnportDelegate += getRoadModeTimings;
+            modesOfTrasnportDelegate.Invoke(source, destination);
+        }
+    }
+}
+
+Question 4 on multicast delegates:
+----------------------------------
+
+=>Reasoning: 
+
+When we buy any land we want to know the area of the land along with perimeter as well as the cost of the total area when the cost of each square feet
+is given. We can use multiCast delegates to calculate all the different attributes with a single invoke using the inputs and display the values.
+In the program we will calculate area, perimeter and total cost for a given user input of length and width
+
+=>Program:
+
+using System;
+
+namespace OptionsAndDelegates
+{
+    public delegate void RealEstateAttributes(double length, double breadth);
+    class Del2
+    {
+        static double priceForEachSquareFeet;
+        static Func<double, double, double> funcArea = (length, width) => length * width;
+        static Func<double, double, double> funcPeri = (length, width) => 2 * (length + width);
+        static Func<double, double, double> funcCost = (length, width) => length * width * priceForEachSquareFeet;
+        static void calculateArea(double length, double width) => Console.WriteLine("Area of the land is: " + funcArea(length,width) + " square feet");
+        static void calculatePerimeter(double length, double width) => Console.WriteLine("Area of the land is: " + funcPeri(length,width) + " feet");
+        static void calculateCost(double length, double width) => Console.WriteLine("Total cost of the land is: $" + funcCost(length,width));
+        static void Main(string[] args)
+        {
+            Console.Write("Please enter length of the land in feet: ");
+            double length = double.Parse(Console.ReadLine());
+            Console.Write("Please enter width of the land in feet: ");
+            double width = double.Parse(Console.ReadLine());
+            Console.Write("Please enter price for each square feet: $");
+            priceForEachSquareFeet = double.Parse(Console.ReadLine());
+            Console.WriteLine("\nUsing multiCast delegates we will calculate area, perimeter and cost in a single invoke call:");
+            RealEstateAttributes realEstateLand = calculateArea;
+            realEstateLand += calculatePerimeter;
+            realEstateLand += calculateCost;
+            realEstateLand.Invoke(length, width);
+        }
+    }
+}
