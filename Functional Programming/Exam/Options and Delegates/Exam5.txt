@@ -3,9 +3,7 @@
 
 =>Reasoning: 
  
-While we withdraw money we need to have sufficient balance in account for that to be considered as eligible transaction. Customer can enter any value
-while withdrawing the money. We need to check if that is a valid number as well as the balance is sufficient for the withdrawal transaction. We will 
-use options concept to achieve this where we return some (when it is an eligible transaction) or none (if it is not eligible transaction) 
+ 
 
 =>Program:
 
@@ -16,9 +14,7 @@ Question 2 on options:
 
 =>Reasoning:
 
-Banks will approve loan based on the credit score. So for a given credit score we need to provide whether the customer is eligible for loan or not.
-Users can provide any value for the credit score. We need to validate the credit score and provide the response.
-For the following program we consider credit score to be atleast 670 for loan to be approved.
+
 
 =>Program:
 
@@ -29,20 +25,45 @@ Question 3 on multicast delegates:
 
 =>Reasoning: 
 
-When we prepare any dish we need a set of ingredients and based on the quantity of the preparation of dish the quantity of ingredients changes. 
-For the following program we will take the preparation of chicken pickle dish and find the quantity of ingredients required for the quantity of
-preparation of pickle given by user.
-For 1 kg preparation of pickle we consider the following amount of quantity for each ingredient
-
-2 table spoon turmeric powder
-2 cups chilli powder
-1/2kg mustard oil
-1cup lemon juice
-100g ginger
+Generally people will go to trips and at the end of the day they want to know the mileage and average speed based on the total distance
+travelled and time taken and fuel consumed.
+For the following program we will calculate mileage and average speed in one invoke call by taking the inputs from user
 
 =>Program:
 
+using System;
 
+namespace FinalExamination
+{
+    public delegate void CalculateMileageAndAverageSpeed(double distance, double time, double fuel);
+    class MileageAndAverageSpeed
+    {
+        public static Func<double, double, double, double> funcMileage = (distance, time, fuel) 
+            => distance / fuel;
+        public static Func<double, double, double, double> funcAvgSpeed = (distance, time, fuel) 
+            => distance / time;
+        public static void calculateMileage(double distance, double time, double fuel) 
+        {
+            Console.WriteLine("Mileage: " + Math.Round(funcMileage(distance, time, fuel),3) + " miles/litre");
+        }
+        public static void calculateAverageSpeed(double distance, double time, double fuel)
+        {
+            Console.WriteLine("Average speed: " + Math.Round(funcAvgSpeed(distance, time, fuel), 3) + " miles/hour");
+        }
+        public static void Main(string[] args)
+        {
+            Console.Write("Enter total distance travelled in miles: ");
+            double distance = double.Parse(Console.ReadLine());
+            Console.Write("Enter total time travelled in hours: ");
+            double hours = double.Parse(Console.ReadLine());
+            Console.Write("Enter total fuel consumed in litres: ");
+            double fuel = double.Parse(Console.ReadLine());
+            CalculateMileageAndAverageSpeed mileageAndAvgSpeed = calculateMileage;
+            mileageAndAvgSpeed += calculateAverageSpeed;
+            mileageAndAvgSpeed.Invoke(distance, hours, fuel);
+        }
+    }
+}
 
 Question 4 on multicast delegates:
 ----------------------------------
@@ -62,7 +83,6 @@ namespace FinalExamination
     public delegate void CalculateInterest(double principalAmount, double rateOfInterest, int time);
     class SimpleInterestAndCompoundInterest
     {
-        public static double priceForEachSquareFeet;
         public static Func<double, double, int, double> funcSI = (principalAmount, rateOfInterest, time) => (principalAmount * (time/12) * rateOfInterest)/100;
         public static Func<double, double, int, double> funcCI = (principalAmount, rateOfInterest, time) => principalAmount * Math.Pow(1 + rateOfInterest/100, (time / 12)) - principalAmount;
         public static void calculateSimpleInterest(double principalAmount, double rateOfInterest, int time) 
