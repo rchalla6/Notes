@@ -115,12 +115,48 @@ For 1 kg preparation of pickle we consider the following amount of quantity for 
 2 table spoon turmeric powder
 2 cups chilli powder
 1/2kg mustard oil
-3/4th cup salt
 1cup lemon juice
 100g ginger
 
 =>Program:
 
+using System;
+
+namespace FinalExam
+{
+    public delegate void ChickenPickleIngredients(double chickenQuantity);
+    class Progam1OnDelegates
+    {
+        static readonly Func<double, int> tumericPow = (quan) => (int)(2 * quan);
+        static readonly Func<double, int> chilliPow = (quan) => (int)(2 * quan);
+        static readonly Func<double, double> oil = (quan) => Math.Round(quan/2,2);
+        static readonly Func<double, double> lemon = (quan) => Math.Round(quan, 2);
+        static readonly Func<double, int> ginger = (quan) => (int)(quan * 100);
+
+        static void calculateGinger(double chickenQuantity) =>
+            Console.WriteLine("Ginger: " + ginger(chickenQuantity) + "grams");
+        static void calculateLemonJuice(double chickenQuantity) =>
+            Console.WriteLine("Lemon juice: " + lemon(chickenQuantity) + " cups");
+        static void calculateOil(double chickenQuantity) =>
+            Console.WriteLine("Mustard oil: " + oil(chickenQuantity) + "kg");
+        static void calculateChilliPowder(double chickenQuantity) =>
+            Console.WriteLine("Chilli powder: " + chilliPow(chickenQuantity) + " cups");
+        static void calculateTurmericPowder(double chickenQuantity) => 
+            Console.WriteLine("Turmeric powder: " + tumericPow(chickenQuantity) + " table spoons");
+        static void Main(string[] args)
+        {
+            Console.Write("Enter quantity of chicken to be prepared in kgs: ");
+            double quantity = double.Parse(Console.ReadLine());
+            Console.WriteLine("\nMultiCast delegates to find quantity of ingredients:");
+            ChickenPickleIngredients chickenPickleIngredients = calculateTurmericPowder;
+            chickenPickleIngredients += calculateChilliPowder;
+            chickenPickleIngredients += calculateOil;
+            chickenPickleIngredients += calculateLemonJuice;
+            chickenPickleIngredients += calculateGinger;
+            chickenPickleIngredients.Invoke(quantity);
+        }
+    }
+}
 
 
 Question 4 on multicast delegates:
@@ -128,9 +164,12 @@ Question 4 on multicast delegates:
 
 =>Reasoning: 
 
-When we buy any land we want to know the area of the land along with perimeter as well as the cost of the total area when the cost of each square feet
-is given. We can use multiCast delegates to calculate all the different attributes with a single invoke using the inputs and display the values.
-In the program we will calculate area, perimeter and total cost for a given user input of length and width
+We generally come across online application advertisements saying if you deposit some amount into wallet bonus will be added as an offer. We can use
+multicast to call multiple functions to add balance as well as to check if the deposit amount satisfies the criteria for bonus reward.
+Condition for the bonus reward(extra 500) is to deposit 5000 into the wallet.
+For the following program we consider 2 scenarios
+1. Previous balance is 2000 and deposited 6000 so the balance in the wallet should be 8500 as it satisfies reward condition
+2. Previous balance is 3000 and deposited 2000 so the balance in the wallet should be 5000 as it does not satisfy reward condition
 
 =>Program:
 
