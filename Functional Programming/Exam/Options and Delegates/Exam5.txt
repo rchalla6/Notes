@@ -2,12 +2,61 @@
 ----------------------
 
 =>Reasoning: 
- 
- 
+
+Usualy cyclone warnings are sent based on the wind speed, weather and some other criterias. So we may get valid data or not from the
+input. So we will use options to validate whether to send cyclone warning or not.
+Requirements to consider for cyclone warning:
+wind speed should be atleast 35 knots and weather is maximum of 15 degrees
+we will store the scenarios in list and find what among them are valid scenarios for cyclone warnings 
 
 =>Program:
 
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static LaYumba.Functional.F;
 
+namespace FinalExamination
+{
+    class CycloneWarnings
+    {
+        public static void Main(string[] args)
+        {
+            List<Tuple<string, double, double>> cycloneScenarios = new()
+            {
+                Tuple.Create("Scenario 1", 95.0, 12.0),
+                Tuple.Create("Scenario 2", 75.0, 22.0),
+                Tuple.Create("Scenario 3", -105.0, 11.0),
+                Tuple.Create("Scenario 4", 105.0, 12.0)
+            };
+
+            foreach (var cycl in cycloneScenarios)
+            {
+                Option<Cyclone> cyclone = Cyclone.cycloneWarningCheck(cycl);
+                if (cyclone.ToString().ToLower().Equals("none"))
+                    Console.WriteLine(cycl.Item1 + " with speed " + cycl.Item2 + " and weather " + cycl.Item3 + " is not valid for cyclone warning");
+                else
+                    Console.WriteLine(cycl.Item1 + " with speed " + cycl.Item2 + " and weather " + cycl.Item3 + " is valid for cyclone warning");
+            }
+        }
+        public class Cyclone
+        {
+            public bool toBeWarned { get; }
+            public Cyclone(bool warn) => this.toBeWarned = warn;
+
+            public static implicit operator bool(Cyclone ep) => ep.toBeWarned;
+
+            public static Func<Tuple<string, double, double>, Option<Cyclone>> cycloneWarningCheck = cyclone => 
+                    validWindSpeed(cyclone.Item2) && isEligible(cyclone) ? Some(new Cyclone(true)) : None;
+
+            static Func<double, bool> validWindSpeed = (speed) => speed >= 0;
+
+            static Func<Tuple<string, double, double>, bool> isEligible = cyclone => cyclone.Item3 <= 15 && 
+                                cyclone.Item2 >= 35;
+        }
+    }
+}
 
 Question 2 on options:
 ----------------------
