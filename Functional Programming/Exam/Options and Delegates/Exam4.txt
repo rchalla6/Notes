@@ -173,4 +173,34 @@ For the following program we consider 2 scenarios
 
 =>Program:
 
+using System;
 
+namespace FinalExam
+{
+    public delegate void DepositAmountToAccount(double finalAmount);
+    class Progam2OnDelegates
+    {
+        public static double balanceAmount = 2000.0;
+        static Func<double, double> depositBonusAmount = (dep) => dep >= 5000 ? 500 : 0;
+        static void DepositAmount(double dep)
+        {
+            balanceAmount += dep;
+        }
+        static void DepositBonusAmount(double dep)
+        {
+            balanceAmount += depositBonusAmount(dep);
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Scenario 1:\nPrevious balance is $" + balanceAmount + " and depositing amount $6000");
+            DepositAmountToAccount depAmount = DepositAmount;
+            depAmount += DepositBonusAmount;
+            depAmount.Invoke(6000);
+            Console.WriteLine("Final amount is:" + balanceAmount);
+            balanceAmount = 3000;
+            Console.WriteLine("\nScenario 2:\nPrevious balance is $" + balanceAmount + " and depositing amount $2000");
+            depAmount.Invoke(2000);
+            Console.WriteLine("Final amount is:" + balanceAmount);
+        }
+    }
+}
