@@ -1,0 +1,35 @@
+MultiCast delegates:
+--------------------
+1
+- Subscription to stores 
+- Shopping cart
+2
+- Displaying notes content on screen and storing in file
+- Mortgage calculator
+3
+- Finding different modes of transport from source to destination
+- Finding attributes of a land
+4
+- Integredients required 
+- Adding bonus
+5
+- SI and CI
+- Mileage and speed based on time and distance travelled
+
+Options:
+---------------------
+1
+- Emerging Player
+- Interview
+2
+- Different type of customer discount
+- Flagship phone
+3
+- Check if the person falls under obesity category using BMI index
+- Check if given number is prime number
+4
+- Eligible withdrawal transaction based on balance available
+- Loan approval based on credit score
+5
+- Cyclone warning based on wind speed and other attributes
+- Student eligible for scholarship
