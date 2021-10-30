@@ -1,0 +1,27 @@
+Question 4:
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using static LaYumba.Functional.F;
+
+namespace Assignment2
+{
+    public static class Question4
+    {
+        public static Func<IEnumerable<int>, Func<int, bool>, Option<int>> Lookup = (enumerableList, predicate) => {
+            foreach (int item in enumerableList)
+                if (predicate(item)) return Some(item);
+            return None;
+        };
+
+        public static void Main(string[] args)
+        {
+            Func<int, bool> predicateEven = i => i % 2 == 0;
+            Option<int> response1 = Lookup(new List<int> {1,3,5},predicateEven); // => None
+            Console.WriteLine(response1);
+            Option<int> response2= Lookup(new List<int> { 1,4,5,8 },predicateEven); // => Some(4)
+            Console.WriteLine(response2);
+        }
+    }
+}
