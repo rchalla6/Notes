@@ -1,5 +1,68 @@
-Question 4:
+Question1:
+----------
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
 
+namespace Assignment2
+{
+    public static class Question1
+    {
+        public static Func<string, Option<DayOfWeek>> convertToEnum = (day) 
+            => System.Enum.TryParse<DayOfWeek>(day, out DayOfWeek dayOfWeek) ? System.Enum.Parse<DayOfWeek>(day) : None;
+        public static void Main(string[] args)
+        {
+            Option<DayOfWeek> validDay = convertToEnum("Friday");
+            Console.WriteLine(validDay); // Valid : Some(Friday)
+            Option<DayOfWeek> invalidDay = convertToEnum("Freeday");
+            Console.WriteLine(invalidDay); // Invalid : None
+        }
+        public enum DayOfWeek
+        {
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday,
+            Sunday
+        }
+    }
+}
+
+Question 2:
+-----------
+using LaYumba.Functional;
+using System;
+using System.Text.RegularExpressions;
+using static LaYumba.Functional.F;
+
+namespace Assignment2
+{
+    public static class Question2
+    {
+        public static void Main(string[] args)
+        {
+            Option<EmailValidation> emailResponse1 = EmailValidation.Create("assignment@gmail.com");
+            Console.WriteLine(emailResponse1); // Valid : Some(Assignment2.Email)
+            Option<EmailValidation> emailResponse2 = EmailValidation.Create("assignment@gmail");
+            Console.WriteLine(emailResponse2); // Invalid: None
+        }
+    }
+    public class EmailValidation
+    {
+        static readonly Regex regularExpressionForEmailCheck = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+        private string email { get; }
+        private EmailValidation(string value) => email = value;
+        public static Option<EmailValidation> Create(string s) => regularExpressionForEmailCheck.IsMatch(s) ? Some(new EmailValidation(s)): None;
+
+        public static implicit operator string(EmailValidation e) => e.email;
+    }
+}
+
+
+Question 4:
+-----------
 using LaYumba.Functional;
 using System;
 using System.Collections.Generic;
