@@ -30,8 +30,10 @@ namespace Assignment2
     }
 }
 
+
 Question 2:
 -----------
+
 using LaYumba.Functional;
 using System;
 using System.Text.RegularExpressions;
@@ -61,8 +63,44 @@ namespace Assignment2
 }
 
 
+Question 3:
+-----------
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace Assignment2
+{
+    public static class Question3
+    {
+        static Func<int, Option<int>> isPrime = number => validInt(number) && checkprime(number) ? Some(number) : None;
+        static Func<int, bool> validInt = number => number > 1;
+        static Func<int, bool> checkprime = number =>
+        {
+            for (int a = 2; a <= number / 2; a++)
+                if (number % a == 0)
+                    return false;
+            return true;
+        };
+        public static void Main(string[] args)
+        {
+            Option<int> test1 = isPrime(11);
+            Console.WriteLine(test1); // Prime : Some(11)
+            Option<int> test2 = isPrime(8);
+            Console.WriteLine(test2); // Not Prime : None
+            Option<int> test3 = isPrime(29);
+            Console.WriteLine(test3); // Prime : Some(29)
+            Option<int> test4 = isPrime(-11);
+            Console.WriteLine(test4); // Invalid Number : None
+        }
+    }
+}
+
+
 Question 4:
 -----------
+
 using LaYumba.Functional;
 using System;
 using System.Collections.Generic;
