@@ -1,0 +1,26 @@
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace Problem
+{
+    public static class Options
+    {
+        static Func<int, int, Option<int>> isWholeNumber = (a, b) =>
+         {
+             double squareRoot = Math.Abs(Math.Sqrt(a * a + b * b));
+             return squareRoot % 1 == 0 ? Some((int)squareRoot) : None;
+         };
+        public static void Main(string[] args)
+        {
+            Option<int> validTest1 = isWholeNumber(3,4);
+            Console.WriteLine(validTest1); // WholeNumber : Some(5)
+            Option<int> invalidTest1 = isWholeNumber(4, 5);
+            Console.WriteLine(invalidTest1); // Not a WholeNumber : None
+            Option<int> invalidTest2 = isWholeNumber(7, 8);
+            Console.WriteLine(invalidTest2); // Not a WholeNumber : None
+            Option<int> validTest2 = isWholeNumber(5, 12);
+            Console.WriteLine(validTest2); // WholeNumber : Some(13)
+        }
+    }
+}
