@@ -53,24 +53,27 @@ namespace Assignment3G
 Question 3:
 -----------
 
+using LaYumba.Functional;
 using System;
 using System.Collections.Generic;
+using static LaYumba.Functional.F;
 
 namespace Assignment3G
 {
-    class Q3
+    public static class Q3
     {
-        public static Func<IEnumerable<int>, Func<int, bool>, string> findFirstOddNumber = (list, predicateFunc) => {
+        public static Func<IEnumerable<int>, Func<int, bool>, Either<string, int>> findFirstOddNumber = (list, predicateFunc) => {
             foreach (int number in list)
-                if (predicateFunc(number)) return number.ToString();
+                if (predicateFunc(number)) return number;
             return "Unable to find odd number in the enumerable list given";
         };
 
         static void Main(string[] args)
         {
             Func<int, bool> predicateOdd = i => i % 2 == 1;
-            Console.WriteLine(findFirstOddNumber(new List<int> { 2, 4, 8 }, predicateOdd)); // Unable to find odd number in the enumerable list given
-            Console.WriteLine(findFirstOddNumber(new List<int> { 2, 5, 7, 11 }, predicateOdd)); // 5
+            Console.WriteLine(findFirstOddNumber(new List<int> { 2, 4, 8 }, predicateOdd)); // Left(Unable to find odd number in the enumerable list given)
+            Console.WriteLine(findFirstOddNumber(new List<int> { 2, 5, 7, 11 }, predicateOdd)); // Right(5)
         }
     }
 }
+
