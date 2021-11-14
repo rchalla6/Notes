@@ -1,40 +1,48 @@
 Question 1:
 -----------
 
--- Finding the sum of first n natural numbers using recursion
-
 using System;
 
-namespace Assignment3
+namespace Assignment3G
 {
     class Q1
     {
-        static Func<int, int, long> sumOfFirstNNaturalNumbers = (start, end) =>
-                    end == start ? end : end + sumOfFirstNNaturalNumbers(start, end - 1);
+        static int count = 0;
+        static Func<long, int> findNumberOfZeroes = (number) => {
+            if(number > 0)
+            {
+                if (number % 10 == 0) count++;
+                findNumberOfZeroes(number /= 10);
+            }
+            return count;
+        };
         static void Main(string[] args)
         {
-            Console.WriteLine(sumOfFirstNNaturalNumbers(1,5));  // 15
-            Console.WriteLine(sumOfFirstNNaturalNumbers(1,10)); // 55
-            Console.WriteLine(sumOfFirstNNaturalNumbers(1,20)); // 210
+            Console.WriteLine(findNumberOfZeroes(100023));  // 3
+            count = 0; Console.WriteLine(findNumberOfZeroes(120)); // 1
         }
     }
 }
 
-Question 2:
------------
-
 using System;
+using System.Linq;
 
-namespace Assignment3
+namespace Assignment3G
 {
     class Q2
     {
-        static Func<int, long> factorial = (num) => num == 1 ? 1 : num * factorial(num - 1);
+        static Func<int, int, bool> isPrimeNumber = (number1, number2) => {
+            if(number2 == 1) { return true; } 
+            else { 
+                if (number1 % number2 == 0) return false; 
+                else { return isPrimeNumber(number1, number2 - 1); 
+                } 
+            }
+        };
         static void Main(string[] args)
         {
-            Console.WriteLine(factorial(5));  // 120
-            Console.WriteLine(factorial(8));  // 40320
-            Console.WriteLine(factorial(10)); // 3628800
+            int[] primeNumbers = Enumerable.Range(3, 100-3).Where(x => isPrimeNumber(x, x / 2)).ToArray();
+            Console.WriteLine("Prime numbers in range 3 to 100 are:" + string.Join(",", primeNumbers));
         }
     }
 }
