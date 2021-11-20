@@ -1,0 +1,67 @@
+Question1:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace Exam
+{
+    public static class Question1
+    {
+        static Func<int, int, int, Option<string>> findRoots = (a, b, c) => (b * b - 4 * a * c) > 0 ?  
+                Some(Math.Round((-1 * b + Math.Sqrt(b* b - 4 * a* c)) / 2 * a,2).ToString() + "," + 
+                Math.Round((-1 * b - Math.Sqrt(b * b - 4 * a * c)) / 2 * a).ToString()) : None;
+        static void Main(string[] args)
+        {
+            Console.WriteLine(findRoots(1, -1, -6)); // Roots 3, -2
+            Console.WriteLine(findRoots(1, 10, 169)); // Imaginary roots
+        }
+    }
+}
+
+
+Question2:
+
+
+using LaYumba.Functional;
+using System;
+
+namespace Exam
+{
+    public static class Question2
+    {
+        public static Either<string, int>  calculateEquation(int a, int b)
+        {
+            if (Math.Sqrt(b) % 1 != 0) return "The number b is not a Perfect Square";
+            if ((-1 * a + (int)Math.Sqrt(b)) < 0) return "The value of equation is less than zero";
+            return (-1 * a + (int)Math.Sqrt(b));
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine(calculateEquation(2, 26)); // The number b is not a Perfect Square 
+            Console.WriteLine(calculateEquation(6,25)); // The value of equation is less than zero
+            Console.WriteLine(calculateEquation(7,64)); // Valid
+        }
+    }
+}
+
+
+Question 3:
+
+using System;
+
+namespace Exam
+{
+    public static class Question3
+    {
+        static Func<char, int> isVowelCharacter = ch => 
+            (char.ToUpper(ch) == 'A' || char.ToUpper(ch) == 'E' || char.ToUpper(ch) == 'I' || char.ToUpper(ch) == 'O' || char.ToUpper(ch) == 'U') ? 1 : 0;
+        static Func<string, int, int> countVowels = (str, n) => 
+            n == 0 ? isVowelCharacter(str[n - 1]) : countVowels(str, n - 1) + isVowelCharacter(str[n - 1]);
+        public static void Main(string[] args)
+        {
+            string word = "Exam test";
+            Console.WriteLine(countVowels(word, word.Length)); // 3
+        }
+    }
+}
