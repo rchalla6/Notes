@@ -1,3 +1,38 @@
+Question 1:
+-----------
+
+using System;
+using System.Linq;
+
+namespace AssignmentIVA
+{
+    public static class LinkedList
+    {
+        public static List<T> List<T>(T h, List<T> t) => new List<T>(h, t);
+        public static List<T> List<T>(params T[] items) => items.Reverse().Aggregate(new List<T>(),(tail, head) => List(head, tail));
+        public static List<T> InsertAt<T>(this List<T> @this, int m, T value) => m == 0 ? List(value, @this) : @this.Match(
+              () => { throw new IndexOutOfRangeException(); }, (head, tail) => List(head, tail.InsertAt(m - 1, value)));
+        public static List<T> RemoveAt<T>(this List<T> @this, int m, T value) => m == 0 ? List(value, @this) : @this.Match(
+              () => { throw new IndexOutOfRangeException(); }, (head, tail) => List(head, tail.RemoveAt(m - 1, value)));
+    }
+
+    public sealed class List<T>
+    {
+        readonly bool isEmpty;
+        readonly T head;
+        readonly List<T> tail;
+        // Empty list
+        internal List() { isEmpty = true; }
+        // Non Empty list
+        internal List(T head, List<T> tail)
+        {
+            this.head = head;
+            this.tail = tail;
+        }
+        public R Match<R>(Func<R> Empty, Func<T, List<T>, R> Cons)
+           => isEmpty ? Empty() : Cons(head, tail);
+    }
+}
 
 Question 2:
 -----------
