@@ -1,3 +1,55 @@
+
+Question 2:
+-----------
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using static LaYumba.Functional.F;
+
+namespace AssignmentIVA
+{
+    class Program2
+    {
+        static void Main(string[] args)
+        {
+            List<Order> listOfOrders = new List<Order>
+            {
+                new Order("Steve", 3, (decimal)12.3),
+                new Order("Robert", 4, (decimal)16.8),
+                new Order("Nat", 1, (decimal)2.3),
+                new Order("Hawk", 2, (decimal)1.8),
+                new Order("Selena", 3, (decimal)10.3),
+                new Order("Taylor", 2, (decimal)4.1)
+            };
+
+            Func<List<Order>, List<Order>> minimum3Pizza = (allOrdersList) => allOrdersList.FindAll(x => x.Pizza >= 3);
+            Func<List<Order>, List<string>> moreThan2PizzaNames = 
+                (allOrdersList) => allOrdersList.FindAll(x => x.Pizza >= 3).Select(x => x.NameOnOrder).ToList();
+            Func<List<Order>, decimal> sumOfAllOrder = (allOrdersList) => allOrdersList.Sum(x => x.TotalCost);
+
+            Console.WriteLine("List of orders with atleast 3 pizzas are: " + string.Join(",", minimum3Pizza(listOfOrders)));
+            foreach (var order in minimum3Pizza(listOfOrders))
+                Console.WriteLine(string.Join(",", "Name: "+ order.NameOnOrder,"No of pizzas: "+ order.Pizza,"Total cost: " + order.TotalCost));
+            Console.WriteLine("\nList of people who ordered more than 2 pizzas are: " + string.Join(",",moreThan2PizzaNames(listOfOrders)));
+            Console.WriteLine("\nTotal amount of money made with all orders: " + sumOfAllOrder(listOfOrders));
+        }
+    }
+    public class Order
+    {
+        public Order(string nameOnOrder, int pizza, decimal totalCost)
+        {
+            NameOnOrder = nameOnOrder;
+            Pizza = pizza;
+            TotalCost = totalCost;
+        }
+        public string NameOnOrder { get; private set; }
+        public int Pizza { get; private set; }
+        public decimal TotalCost { get; private set; }
+    }
+}
+
 Question 3:
 -----------
 
