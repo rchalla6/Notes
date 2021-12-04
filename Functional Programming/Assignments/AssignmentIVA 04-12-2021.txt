@@ -1,0 +1,19 @@
+Question 3:
+-----------
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace AssignmentIVA
+{
+    class Program3
+    {
+        static void Main(string[] args)
+        {
+            Func<double, double, int> BMI = (weight, height) => Convert.ToInt32(weight / (height * height));
+            Console.WriteLine($" The BMI for a given weight(in kg) and height(in metre) is: {Some(65.4).Map(BMI).Apply(Some(1.43))}"); // 32
+            Console.WriteLine($" The BMI for a given weight(in kg) and height(in metre) is: {Some(58.2).Map(BMI).Apply(Some(1.63))}"); // 22
+        }
+    }
+}
