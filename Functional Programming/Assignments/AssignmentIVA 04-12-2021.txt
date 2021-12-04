@@ -6,7 +6,6 @@ using LaYumba.Functional;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static LaYumba.Functional.F;
 
 namespace AssignmentIVA
 {
