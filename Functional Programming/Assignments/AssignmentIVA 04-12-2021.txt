@@ -6,6 +6,13 @@ using System.Linq;
 
 namespace AssignmentIVA
 {
+    public class Program1
+    {
+        public static void Main(string[] args)
+        {
+
+        }
+    }
     public static class LinkedList
     {
         public static List<T> List<T>(T h, List<T> t) => new List<T>(h, t);
@@ -63,7 +70,7 @@ namespace AssignmentIVA
                 (allOrdersList) => allOrdersList.FindAll(x => x.Pizza >= 3).Select(x => x.NameOnOrder).ToList();
             Func<List<Order>, decimal> sumOfAllOrder = (allOrdersList) => allOrdersList.Sum(x => x.TotalCost);
 
-            Console.WriteLine("List of orders with atleast 3 pizzas are: " + string.Join(",", minimum3Pizza(listOfOrders)));
+            Console.WriteLine("List of orders with atleast 3 pizzas are: ");
             foreach (var order in minimum3Pizza(listOfOrders))
                 Console.WriteLine(string.Join(",", "Name: "+ order.NameOnOrder,"No of pizzas: "+ order.Pizza,"Total cost: " + order.TotalCost));
             Console.WriteLine("\nList of people who ordered more than 2 pizzas are: " + string.Join(",",moreThan2PizzaNames(listOfOrders)));
