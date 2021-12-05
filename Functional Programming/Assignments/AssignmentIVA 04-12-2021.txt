@@ -41,6 +41,154 @@ namespace AssignmentIVA
     }
 }
 
+Question 1 Version 2:
+---------------------
+
+using System;
+
+namespace AssignmentIVA
+{
+    public class Program1
+    {
+        public static void Main(string[] args)
+        {
+            LinkedList linkedList = new LinkedList();
+            linkedList.AddAtLast("Steve");
+            linkedList.AddAtLast("John");
+            linkedList.AddAtLast("Peter");
+            linkedList.AddAtLast("Robert");
+            linkedList.PrintAllNodes();
+            Console.WriteLine("\nAfter adding new node at position 2");
+            linkedList.InsertAt("Rogers",2);
+            linkedList.PrintAllNodes();
+            Console.WriteLine("\nAfter removing node at position 3");
+            linkedList.RemoveAt(3);
+            linkedList.PrintAllNodes();
+            Console.WriteLine("\nIterating till Peter");
+            linkedList.ListUntil("Peter");
+            Console.WriteLine("\nIterating till Dave");
+            linkedList.ListUntil("Dave");
+            Console.ReadKey();
+        }
+    }
+    public class Node
+    {
+        public Node Next;
+        public string Value;
+    }
+
+    public class LinkedList
+    {
+        private static Node head;
+        private static Node tail;
+        public LinkedList()
+        {
+            head = new Node();
+            tail = head;
+        }
+
+        public Action<string> AddAtLast = data =>
+        {
+            Node newNode = new Node
+            {
+                Value = data
+            };
+            tail.Next = newNode;
+            tail = newNode;
+        };
+
+        public Action<string> AddAtStart = data =>
+        {
+            Node newNode = new Node() { Value = data };
+            newNode.Next = head.Next;
+            head.Next = newNode;
+        };
+
+        public Action<string,int> InsertAt = (data,index) => {
+            int count = 0;Node node = head;Node prev = null;
+            while (count != index)
+            {
+                count++; prev = node; node = node.Next;
+            }
+            Node newNode = new Node {
+                Value = data,
+                Next = node
+            };
+            if (count == 0)
+                head = newNode;
+            else
+                prev.Next = newNode;
+        };
+
+        public Action<int> RemoveAt = (index) =>{
+            if (head == null)
+                return;
+
+            Node temp = head;
+
+            if (index == 0)
+                head = temp.Next;
+
+            for (int i = 0; temp != null && i < index - 1; i++)
+                temp = temp.Next;
+
+            if (temp == null || temp.Next == null)
+                return;
+
+            Node next = temp.Next.Next;
+            temp.Next = next;
+        };
+
+        public Action<string> ListUntil = (data) => {
+            if (head == null)
+            {
+                Console.WriteLine("Cannot find the item in the question");
+                return;
+            }
+
+            Node temp = head.Next;
+            if (temp.Value.Equals(data))
+                Console.WriteLine("Head -> " + temp.Value);
+            bool found = false;
+            while(temp != null)
+            {
+                if (temp.Value.Equals(data))
+                {
+                    Node temp1 = head.Next;
+                    Console.Write("Head");
+                    while (true)
+                    {
+                        Console.Write(" -> " + temp1.Value);
+                        if (temp1.Value.Equals(data))
+                        {
+                            found = true;
+                            break;
+                        }
+                        temp1 = temp1.Next;
+                    }
+                }
+                if (found) break;
+                temp = temp.Next;
+            }
+            if(!found)
+                Console.WriteLine("Cannot find the item in the question");
+        };
+
+        public void PrintAllNodes()
+        {
+            Console.Write("Head ->");
+            Node curr = head;
+            while (curr.Next != null)
+            {
+                curr = curr.Next;
+                Console.Write(curr.Value);
+                Console.Write("->");
+            }
+            Console.Write("NULL\n");
+        }
+    }
+}
+
 Question 2:
 -----------
 
