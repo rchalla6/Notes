@@ -1,0 +1,67 @@
+Question 1:
+-----------
+
+=>Reasoning: 
+
+Usually while we set passwords there will be some conditions to be met. We will use either concept to check the conditions and if all the
+conditions are met we will return the length of the password
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using System.Linq;
+
+namespace App
+{
+    class Either
+    {
+        private static readonly char[] SpecialChars = "!@#$%^&*()".ToCharArray();
+        public static Either<string, int> validatePassword(string password)
+        {
+            int indexOf = password.IndexOfAny(SpecialChars);
+            if (password.Length < 8) return "Length of the password should be minimum of 8 characters length";
+            else if (password.ToLower().Equals(password)) return "There should be atleast one capital letter";
+            else if (!password.Any(char.IsDigit)) return "There should be atleast one numeric character";
+            else if (indexOf == -1) return "There should be atleast one special character";
+            return password.Length;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("M1ckey       :" + validatePassword("M1ckey")); // Length fail
+            Console.WriteLine("m1ckeym0use  :" + validatePassword("m1ckeym0use")); // Capital letter fail
+            Console.WriteLine("MickeyMouse  :" + validatePassword("MickeyMouse")); // Numeric character fail
+            Console.WriteLine("M1ckeyM0use  :" + validatePassword("M1ckeyM0use")); // Specical character fail
+            Console.WriteLine("M1ckeyM0use@ :" + validatePassword("M1ckeyM0use@")); // Valid
+        }
+    }
+}
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+We will use apply concept to find the kinetic energy with a given mass and velocity
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace App
+{
+    class Apply
+    {
+        static void Main(string[] args)
+        {
+            Func<double, double> velocity = (vel) => vel * vel;
+            Func<double, int, double> energy = (mass, velocity2) => 0.5 * mass * velocity2;
+            Console.WriteLine("Kinetic energy with mass 250kg and Velocity 10m/s is :" + 
+                Some(energy).Apply(Some(velocity).Apply(10)).Apply(250) + " joules");
+            Console.WriteLine("Kinetic energy with mass 175kg and Velocity 20m/s is :" +
+                Some(energy).Apply(Some(velocity).Apply(20)).Apply(175) + " joules");
+        }
+    }
+}

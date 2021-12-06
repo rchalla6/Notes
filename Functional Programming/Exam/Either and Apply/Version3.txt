@@ -1,0 +1,64 @@
+Question 1:
+-----------
+
+=>Reasoning: 
+
+In shops there will be different amount of discounts for different purchase amounts. We will use either concept to calculate discounts and the 
+conditions we take are no discounts for purchase amount below 100, 5% discount for purchase amount between 100 and 300 and 10% discount for 
+purchases more than 300
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+
+namespace ConsoleApp
+{
+    class Program1
+    {
+        public static Either<string, double> disCount(int purchaseAmount)
+        {
+            if (purchaseAmount <= 0) return "Purchase amount should be more than 0 to check for discounts";
+            if (purchaseAmount < 100) return " There is no discount for purchases for amount below $100";
+            else if (purchaseAmount >= 100 && purchaseAmount < 300) return Math.Round((double)purchaseAmount * 0.05);
+            return Math.Round((double)purchaseAmount * 0.1);
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Discount for the purchase(-50) is - " + disCount(-50)); 
+            Console.WriteLine("Discount for the purchase(180) is - " + disCount(180));
+            Console.WriteLine("Discount for the purchase(320) is - " + disCount(320));
+            Console.WriteLine("Discount for the purchase(90) is - " + disCount(90));
+        }
+    }
+}
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+In shops we will have price for products and there will be discounts and the net price of the product will be original price - discount and tax
+will be levied on this. We will use apply concept to find the final price of the product
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace ConsoleApp
+{
+    class Program2
+    {
+        static void Main(string[] args)
+        {
+            Func<double, double, double> priceAfterDiscount = (price, discount) => price - price * discount / 100;
+            Func<double, int, double> finalPrice = (priceAfterDiscount, tax) => priceAfterDiscount + priceAfterDiscount * tax / 100;
+            Console.WriteLine("Final price of product with original price of 100 and 5% discount and 8% tax is:" + 
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(5)).Apply(8));
+            Console.WriteLine("Final price of product with original price of 100 and no discount and 10% tax is:" +
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(0)).Apply(10));
+        }
+    }
+}
