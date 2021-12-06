@@ -32,3 +32,32 @@ namespace FunctionalProgramming
         }
     }
 }
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+We use apply concept to calculate the SimpleInterest for a given principal, rate of interest and tenure
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace FunctionalProgramming
+{
+    class Apply
+    {
+        static void Main(string[] args)
+        {
+            Func<int, double, int, double> SimpleInterest = (principal, interest, tenure) => (principal * interest * tenure / 12) / 100;
+            Console.WriteLine($" Simple Interest for given principal, rate of interest per annum and tenure in months is: " +
+                $"  {Some(1000).Map(SimpleInterest).Apply(Some(5.0)).Apply(Some(12))}"); // 50
+            Console.WriteLine($" Simple Interest for given principal, rate of interest per annum and tenure in months is: " +
+                $"  {Some(2000).Map(SimpleInterest).Apply(Some(4.5)).Apply(Some(24))}"); // 180
+
+        }
+    }
+}
