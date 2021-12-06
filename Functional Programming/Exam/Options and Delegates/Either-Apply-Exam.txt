@@ -194,3 +194,33 @@ namespace ConsoleApp
         }
     }
 }
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+In shops we will have price for products and there will be discounts and the net price of the product will be original price - discount and tax
+will be levied on this. We will use apply concept to find the final price of the product
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace ConsoleApp
+{
+    class Program2
+    {
+        static void Main(string[] args)
+        {
+            Func<double, double, double> priceAfterDiscount = (price, discount) => price - price * discount / 100;
+            Func<double, int, double> finalPrice = (priceAfterDiscount, tax) => priceAfterDiscount + priceAfterDiscount * tax / 100;
+            Console.WriteLine("Final price of product with original price of 100 and 5% discount and 8% tax is:" + 
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(5)).Apply(8));
+            Console.WriteLine("Final price of product with original price of 100 and no discount and 10% tax is:" +
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(0)).Apply(10));
+        }
+    }
+}
