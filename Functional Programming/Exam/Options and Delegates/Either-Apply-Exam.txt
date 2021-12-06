@@ -1,0 +1,34 @@
+Version 1:
+==========
+
+Question 1:
+-----------
+
+=>Reasoning: 
+
+Usually company provide the bonus to employees based on some criteria. Here we consider the conditions that the employee should be working
+in the company for atleast 12 months and should not be in notice period
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+
+namespace FunctionalProgramming
+{
+    class Either
+    {
+        public static Either<string, int> calculateBonus(int a, bool b)
+        {
+            if (a < 12) return " Not eligible : Must have worked in the company for atleast 12 months";
+            if (b) return "Not eligible : Employees on notice period are not eligible for Bonus";
+            return 5000;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Bonus: " + calculateBonus(9, false)); // Left( Not eligible : Must have worked in the company for atleast 12 months)
+            Console.WriteLine("Bonus: " + calculateBonus(13, false)); // Right(5000)
+            Console.WriteLine("Bonus: " + calculateBonus(21, true)); //  Left(Not eligible : Employees on notice period are not eligible for Bonus)
+        }
+    }
+}
