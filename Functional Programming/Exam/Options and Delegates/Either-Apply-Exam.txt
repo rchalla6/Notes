@@ -113,3 +113,84 @@ namespace FP
         }
     }
 }
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+In mathematics calculating distance between 2 points is very common and important scenario and we use the apply concept to calculate the distance
+using the formula d=√SquareOf(x2−x1)+SquareOf(y2−y1)
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using static LaYumba.Functional.F;
+
+namespace FP
+{
+    class ApplyProgram
+    {
+        static void Main(string[] args)
+        {
+            Func<int, int, int> sub = (first, second) => second - first;
+            Func<int, int> square = (num) => num * num;
+            Func<int, int, int> Add = (first, second) => first + second;
+            Func<int, double> sqRoot = (num) => Math.Sqrt(num);
+            Console.WriteLine("Distance between points (1,2), (2,5) is: " + 
+                Some(sqRoot).
+                    Apply(Some(Add)
+                            .Apply(Some(sub)
+                                .Apply(1)
+                                .Apply(2)
+                                .Map(square))
+                            .Apply(Some(sub)
+                                .Apply(2)
+                                .Apply(5)
+                                .Map(square))
+                          )
+                    );
+        }
+    }
+}
+
+----------------------------------------------------------------------
+
+Version 3:
+==========
+
+Question 1:
+-----------
+
+=>Reasoning: 
+
+In shops there will be different amount of discounts for different purchase amounts. We will use either concept to calculate discounts and the 
+conditions we take are no discounts for purchase amount below 100, 5% discount for purchase amount between 100 and 300 and 10% discount for 
+purchases more than 300
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+
+namespace ConsoleApp
+{
+    class Program1
+    {
+        public static Either<string, double> disCount(int purchaseAmount)
+        {
+            if (purchaseAmount <= 0) return "Purchase amount should be more than 0 to check for discounts";
+            if (purchaseAmount < 100) return " There is no discount for purchases for amount below $100";
+            else if (purchaseAmount >= 100 && purchaseAmount < 300) return Math.Round((double)purchaseAmount * 0.05);
+            return Math.Round((double)purchaseAmount * 0.1);
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Discount for the purchase(-50) is - " + disCount(-50)); 
+            Console.WriteLine("Discount for the purchase(180) is - " + disCount(180));
+            Console.WriteLine("Discount for the purchase(320) is - " + disCount(320));
+            Console.WriteLine("Discount for the purchase(90) is - " + disCount(90));
+        }
+    }
+}
