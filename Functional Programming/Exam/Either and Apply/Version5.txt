@@ -1,0 +1,92 @@
+Question 1:
+-----------
+
+=>Reasoning: 
+
+We will use either concept to get the loan approved
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+
+namespace ConsoleApplication
+{
+    class EitherProb
+    {
+        public static Either<string, int> findLoanApproved(int creditScore, int salary)
+        {
+            if (creditScore < 0) return "Credit score cannot be negative";
+            else if (salary < 0) return "Salary cannot be negative";
+            else if (creditScore < 300) return "Loan can't be approved for credit score less than 300";
+            else if (salary < 40000) return "loan can't be approved for salary less than $40000";
+            else if (creditScore < 500 && salary < 80000) return 400000;
+            else if (creditScore > 600 && salary < 100000) return 600000;
+            return 800000;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Loan Status with credit score(-200) and salary($100000):" + findLoanApproved(-200,100000)); 
+            Console.WriteLine("Loan Status with credit score(600) and salary($-80000) :" + findLoanApproved(600,-80000));
+            Console.WriteLine("Loan Status with credit score(290) and salary($110000) :" + findLoanApproved(290,110000));
+            Console.WriteLine("Loan Status with credit score(590) and salary($35000)  :" + findLoanApproved(590,35000));
+            Console.WriteLine("Loan Status with credit score(490) and salary($70000)  :" + findLoanApproved(490,70000));
+            Console.WriteLine("Loan Status with credit score(620) and salary($90000)  :" + findLoanApproved(620,90000));
+            Console.WriteLine("Loan Status with credit score(700) and salary($100000) :" + findLoanApproved(700,100000));
+        }
+    }
+}
+
+Question 2:
+-----------
+
+=>Reasoning: 
+
+We will use apply concept to find all the available modes of transport from one point to another point
+
+=>Program:
+
+using LaYumba.Functional;
+using System;
+using System.Collections.Generic;
+using static LaYumba.Functional.F;
+
+namespace App
+{
+    class Apply
+    {
+        static void Main(string[] args)
+        {
+            List<Tuple<string,string, string, string>> list = new();
+            list.Add(Tuple.Create("air", "PointA", "PointB", "10:00"));
+            list.Add(Tuple.Create("road", "PointA", "PointB", "11:15"));
+            list.Add(Tuple.Create("train", "PointB", "PointC", "16:10"));
+            list.Add(Tuple.Create("air", "PointB", "PointC", "05:20"));
+            list.Add(Tuple.Create("road", "PointC", "PointD", "21:20"));
+
+            Func<string, string, string, string> findTransport = (mode, source, dest) =>
+            {
+                bool found = false;
+                string availableTimes = "";
+                foreach (Tuple<string, string, string, string> tuple in list)
+                {
+                    if (tuple.Item1.Equals(mode) && tuple.Item2.Equals(source) && tuple.Item3.Equals(dest))
+                    {
+                        found = true;
+                        availableTimes = availableTimes.Equals("") ? availableTimes + tuple.Item4 : availableTimes + ", " + tuple.Item4; 
+                    }
+                }
+                if (found) return mode + " transport is available at times : " + availableTimes;
+                return mode + " transport is not available";
+            };
+
+            Func<string, string, string, string> combineTransports = (mode1, mode2, mode3) => "Transport availability:\n" + mode1 +"\n" + mode2 + "\n" + mode3;
+
+            Console.WriteLine("From PointA to PointB transport availability is:\n" +
+                Some(combineTransports)
+                    .Apply(Some(findTransport).Apply("air").Apply("PointA").Apply("PointB"))
+                    .Apply(Some(findTransport).Apply("road").Apply("PointA").Apply("PointB"))
+                    .Apply(Some(findTransport).Apply("train").Apply("PointA").Apply("PointB")));
+        }
+    }
+}
