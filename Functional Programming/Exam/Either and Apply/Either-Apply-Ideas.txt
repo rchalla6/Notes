@@ -5,11 +5,13 @@ Either
 - Discount
 - Valid SSN
 - Loan approved based on credit score
+- Inventory
 
 Apply
 
 - Simple Interest
 - Distance between 2 points
-- Final price
+- Expenses categorization
 - Find transport modes
 - Eligible for admission
+- Final price wuth customer discounts
