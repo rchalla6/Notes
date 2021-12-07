@@ -38,14 +38,13 @@ Question 2:
 
 =>Reasoning: 
 
-We will spend money on different categories at house. We will use apply concept with necessary logic to aggregate the expenses and print it.
+In shops we will have price for products and there will be discounts and the net price of the product will be original price - discount and tax
+will be levied on this. We will use apply concept to find the final price of the product
 
 =>Program:
 
 using LaYumba.Functional;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using static LaYumba.Functional.F;
 
 namespace ConsoleApp
@@ -54,31 +53,12 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Tuple<string, int>[] tuples = {
-                                    Tuple.Create("food", 30),
-                                    Tuple.Create("entertainment", 70),
-                                    Tuple.Create("house", 100),
-                                    Tuple.Create("food", 55),
-                                    Tuple.Create("entertainment", 160),
-                                    Tuple.Create("house", 190),
-                                    Tuple.Create("food", 20)
-                                };
-
-            Func<Tuple<string, int>[], IEnumerable<Tuple<string, int>>> groupExpenses = (expensesList) =>
-                expensesList.GroupBy(t => t.Item1, t => t.Item2)
-                  .Select(g => Tuple.Create(g.Key, g.Aggregate((a,b) => a+b)));
-
-            Func<IEnumerable<Tuple<string, int>>, string> expenses = (groupedExpenses) =>
-            {
-                string exp = "";
-                foreach (var item in groupedExpenses)
-                {
-                    exp = exp.Equals("") ? exp + item.Item1 + ":" + item.Item2 : exp + ", " + item.Item1 + ":" + item.Item2;
-                }
-                return exp;
-            };
-
-            Console.WriteLine("Expenses as per category: " + Some(expenses).Apply(Some(groupExpenses).Apply(tuples)));
+            Func<double, double, double> priceAfterDiscount = (price, discount) => price - price * discount / 100;
+            Func<double, int, double> finalPrice = (netPriceAfterDiscount, tax) => netPriceAfterDiscount + netPriceAfterDiscount * tax / 100;
+            Console.WriteLine("Final price of product with original price of 100 and 5% discount and 8% tax is:" +
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(5)).Apply(8));
+            Console.WriteLine("Final price of product with original price of 100 and no discount and 10% tax is:" +
+                Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(0)).Apply(10));
         }
     }
 }
