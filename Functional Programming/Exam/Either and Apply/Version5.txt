@@ -42,7 +42,8 @@ Question 2:
 
 =>Reasoning: 
 
-We will use apply concept to find all the available modes of transport from one point to another point
+We will use apply concept to find whether the student is eligible for admission or not.
+Conditions for eligibility are that the student should not contain any backlogs and average percentage of last 4 years should be more than 75
 
 =>Program:
 
@@ -51,42 +52,37 @@ using System;
 using System.Collections.Generic;
 using static LaYumba.Functional.F;
 
-namespace App
+namespace ConsoleApplication
 {
-    class Apply
+    class EitherProb
     {
         static void Main(string[] args)
         {
-            List<Tuple<string,string, string, string>> list = new();
-            list.Add(Tuple.Create("air", "PointA", "PointB", "10:00"));
-            list.Add(Tuple.Create("road", "PointA", "PointB", "11:15"));
-            list.Add(Tuple.Create("train", "PointB", "PointC", "16:10"));
-            list.Add(Tuple.Create("air", "PointB", "PointC", "05:20"));
-            list.Add(Tuple.Create("road", "PointC", "PointD", "21:20"));
+            List<Tuple<string, int, double, double, double, double>> list = new();
+            list.Add(Tuple.Create("Tim",0,82.0,79.8,74.8,72.5));
+            list.Add(Tuple.Create("Robert",1,72.0,73.8,74.0,72.5));
+            list.Add(Tuple.Create("Steve",0,82.0,73.9,71.0,82.5));
+            list.Add(Tuple.Create("Sasha",0,72.0,73.7,74.2,72.5));
+            list.Add(Tuple.Create("Quan",2,56.0,49.2,64.9,59.5));
 
-            Func<string, string, string, string> findTransport = (mode, source, dest) =>
+            Func<double, double, double, double, double> average = (year1, year2, year3, year4) => (year1 + year2 + year3 + year4) / 4;
+
+            Func<int, double, double, double, double,string> isEligibleForAdmission = (backlogs, year1, year2, year3, year4) =>
             {
-                bool found = false;
-                string availableTimes = "";
-                foreach (Tuple<string, string, string, string> tuple in list)
-                {
-                    if (tuple.Item1.Equals(mode) && tuple.Item2.Equals(source) && tuple.Item3.Equals(dest))
-                    {
-                        found = true;
-                        availableTimes = availableTimes.Equals("") ? availableTimes + tuple.Item4 : availableTimes + ", " + tuple.Item4; 
-                    }
-                }
-                if (found) return mode + " transport is available at times : " + availableTimes;
-                return mode + " transport is not available";
+                if (backlogs > 0) return "No";
+                if (average(year1, year2, year3, year4) < 75) return "No";
+                return "Yes";
             };
 
-            Func<string, string, string, string> combineTransports = (mode1, mode2, mode3) => "Transport availability:\n" + mode1 +"\n" + mode2 + "\n" + mode3;
-
-            Console.WriteLine("From PointA to PointB transport availability is:\n" +
-                Some(combineTransports)
-                    .Apply(Some(findTransport).Apply("air").Apply("PointA").Apply("PointB"))
-                    .Apply(Some(findTransport).Apply("road").Apply("PointA").Apply("PointB"))
-                    .Apply(Some(findTransport).Apply("train").Apply("PointA").Apply("PointB")));
+            foreach(var item in list)
+            {
+                Console.WriteLine(item.Item1 + " is eligible for admission: " + Some(isEligibleForAdmission)
+                                                                                    .Apply(item.Item2)
+                                                                                    .Apply(item.Item3)
+                                                                                    .Apply(item.Item4)
+                                                                                    .Apply(item.Item5)
+                                                                                    .Apply(item.Item6));
+            }
         }
     }
 }

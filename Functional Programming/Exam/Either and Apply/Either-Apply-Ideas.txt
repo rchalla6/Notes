@@ -11,4 +11,5 @@ Apply
 - Simple Interest
 - Distance between 2 points
 - Final price
-- Find kinetic energy
+- Find transport modes
+- Eligible for admission
