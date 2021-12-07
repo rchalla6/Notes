@@ -49,12 +49,13 @@ Question 2:
 
 =>Reasoning: 
 
-We will use apply concept to find the kinetic energy with a given mass and velocity
+We will use apply concept to find all the available modes of transport from one point to another point
 
 =>Program:
 
 using LaYumba.Functional;
 using System;
+using System.Collections.Generic;
 using static LaYumba.Functional.F;
 
 namespace App
@@ -63,12 +64,36 @@ namespace App
     {
         static void Main(string[] args)
         {
-            Func<double, double> velocity = (vel) => vel * vel;
-            Func<double, int, double> energy = (mass, velocity2) => 0.5 * mass * velocity2;
-            Console.WriteLine("Kinetic energy with mass 250kg and Velocity 10m/s is :" + 
-                Some(energy).Apply(Some(velocity).Apply(10)).Apply(250) + " joules");
-            Console.WriteLine("Kinetic energy with mass 175kg and Velocity 20m/s is :" +
-                Some(energy).Apply(Some(velocity).Apply(20)).Apply(175) + " joules");
+            List<Tuple<string,string, string, string>> list = new();
+            list.Add(Tuple.Create("air", "PointA", "PointB", "10:00"));
+            list.Add(Tuple.Create("road", "PointA", "PointB", "11:15"));
+            list.Add(Tuple.Create("train", "PointB", "PointC", "16:10"));
+            list.Add(Tuple.Create("air", "PointB", "PointC", "05:20"));
+            list.Add(Tuple.Create("road", "PointC", "PointD", "21:20"));
+
+            Func<string, string, string, string> findTransport = (mode, source, dest) =>
+            {
+                bool found = false;
+                string availableTimes = "";
+                foreach (Tuple<string, string, string, string> tuple in list)
+                {
+                    if (tuple.Item1.Equals(mode) && tuple.Item2.Equals(source) && tuple.Item3.Equals(dest))
+                    {
+                        found = true;
+                        availableTimes = availableTimes.Equals("") ? availableTimes + tuple.Item4 : availableTimes + ", " + tuple.Item4; 
+                    }
+                }
+                if (found) return mode + " transport is available at times : " + availableTimes;
+                return mode + " transport is not available";
+            };
+
+            Func<string, string, string, string> combineTransports = (mode1, mode2, mode3) => "Transport availability:\n" + mode1 +"\n" + mode2 + "\n" + mode3;
+
+            Console.WriteLine("From PointA to PointB transport availability is:\n" +
+                Some(combineTransports)
+                    .Apply(Some(findTransport).Apply("air").Apply("PointA").Apply("PointB"))
+                    .Apply(Some(findTransport).Apply("road").Apply("PointA").Apply("PointB"))
+                    .Apply(Some(findTransport).Apply("train").Apply("PointA").Apply("PointB")));
         }
     }
 }
