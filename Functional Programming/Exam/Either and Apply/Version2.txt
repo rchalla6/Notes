@@ -22,7 +22,7 @@ namespace FP
             if (hours > 1) return "Cannot book more than 1 hours";
             bool atleast1SlotAvailable = false;
             List<int> availableTimeSlots = new List<int>();
-            foreach(Tuple<int, bool> tuple in listOfSlots)
+            foreach (Tuple<int, bool> tuple in listOfSlots)
             {
                 if (tuple.Item2)
                 {
@@ -35,8 +35,8 @@ namespace FP
         }
         static void Main(string[] args)
         {
-            List<Tuple<int, bool>> timeSlotsList = new();
-            timeSlotsList.AddRange(new List<Tuple<int, bool>>() {Tuple.Create(9, false), Tuple.Create(10, true), Tuple.Create(11, true), 
+            List<Tuple<int, bool>> timeSlotsList = new List<Tuple<int, bool>>();
+            timeSlotsList.AddRange(new List<Tuple<int, bool>>() {Tuple.Create(9, false), Tuple.Create(10, true), Tuple.Create(11, true),
                 Tuple.Create(12, false), Tuple.Create(13, true), Tuple.Create(14, false), Tuple.Create(15, true), Tuple.Create(16, true)});
             Console.WriteLine(findAvailableTimeSlots(timeSlotsList, 0).Left ?? string.Join(",", findAvailableTimeSlots(timeSlotsList, 0).Right));
             Console.WriteLine(findAvailableTimeSlots(timeSlotsList, 1).Left ?? string.Join(",", findAvailableTimeSlots(timeSlotsList, 1).Right));

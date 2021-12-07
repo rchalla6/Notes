@@ -54,8 +54,8 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             Func<double, double, double> priceAfterDiscount = (price, discount) => price - price * discount / 100;
-            Func<double, int, double> finalPrice = (priceAfterDiscount, tax) => priceAfterDiscount + priceAfterDiscount * tax / 100;
-            Console.WriteLine("Final price of product with original price of 100 and 5% discount and 8% tax is:" + 
+            Func<double, int, double> finalPrice = (netPriceAfterDiscount, tax) => netPriceAfterDiscount + netPriceAfterDiscount * tax / 100;
+            Console.WriteLine("Final price of product with original price of 100 and 5% discount and 8% tax is:" +
                 Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(5)).Apply(8));
             Console.WriteLine("Final price of product with original price of 100 and no discount and 10% tax is:" +
                 Some(finalPrice).Apply(Some(priceAfterDiscount).Apply(100).Apply(0)).Apply(10));
