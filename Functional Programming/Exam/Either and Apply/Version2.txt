@@ -16,31 +16,26 @@ namespace FP
 {
     class EitherProgram
     {
-        public static Either<string, List<int>> findAvailableTimeSlots(List<Tuple<int, bool>> listOfSlots, int hours)
+        public static Either<string, int> findAvailableTimeSlots(List<Tuple<int, bool>> listOfSlots, int hours)
         {
             if (hours <= 0) return "Booking time cannot be less than or equal to 0";
             if (hours > 1) return "Cannot book more than 1 hours";
-            bool atleast1SlotAvailable = false;
-            List<int> availableTimeSlots = new List<int>();
             foreach (Tuple<int, bool> tuple in listOfSlots)
             {
                 if (tuple.Item2)
-                {
-                    atleast1SlotAvailable = true;
-                    availableTimeSlots.Add(tuple.Item1);
-                }
+                    return tuple.Item1;
             }
-            if (!atleast1SlotAvailable) return "No slots available";
-            return availableTimeSlots;
+            return "No slots available";
         }
         static void Main(string[] args)
         {
             List<Tuple<int, bool>> timeSlotsList = new List<Tuple<int, bool>>();
             timeSlotsList.AddRange(new List<Tuple<int, bool>>() {Tuple.Create(9, false), Tuple.Create(10, true), Tuple.Create(11, true),
                 Tuple.Create(12, false), Tuple.Create(13, true), Tuple.Create(14, false), Tuple.Create(15, true), Tuple.Create(16, true)});
-            Console.WriteLine(findAvailableTimeSlots(timeSlotsList, 0).Left ?? string.Join(",", findAvailableTimeSlots(timeSlotsList, 0).Right));
-            Console.WriteLine(findAvailableTimeSlots(timeSlotsList, 1).Left ?? string.Join(",", findAvailableTimeSlots(timeSlotsList, 1).Right));
-            Console.WriteLine(findAvailableTimeSlots(timeSlotsList, 2).Left ?? string.Join(",", findAvailableTimeSlots(timeSlotsList, 2).Right));
+
+            Console.WriteLine("Available timeslot for 0 hours: " + findAvailableTimeSlots(timeSlotsList, 0));
+            Console.WriteLine("Available timeslot for 1 hour : " + findAvailableTimeSlots(timeSlotsList, 1));
+            Console.WriteLine("Available timeslot for 2 hours: " + findAvailableTimeSlots(timeSlotsList, 2));
         }
     }
 }
