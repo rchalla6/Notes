@@ -3,8 +3,7 @@ Question 1:
 
 =>Reasoning: 
 
-Usually while we set passwords there will be some conditions to be met. We will use either concept to check the conditions and if all the
-conditions are met we will return the length of the password
+We will use either concept to validate the SSN number and if all the conditions are met then we will return true indicating that the SSN is valid
 
 =>Program:
 
@@ -17,22 +16,30 @@ namespace App
     class Either
     {
         private static readonly char[] SpecialChars = "!@#$%^&*()".ToCharArray();
-        public static Either<string, int> validatePassword(string password)
+        public static Either<string, bool> validateSSN(string ssnNumber)
         {
-            int indexOf = password.IndexOfAny(SpecialChars);
-            if (password.Length < 8) return "Length of the password should be minimum of 8 characters length";
-            else if (password.ToLower().Equals(password)) return "There should be atleast one capital letter";
-            else if (!password.Any(char.IsDigit)) return "There should be atleast one numeric character";
-            else if (indexOf == -1) return "There should be atleast one special character";
-            return password.Length;
+            int indexOf = ssnNumber.IndexOfAny(SpecialChars);
+            if (ssnNumber.Length != 11) return "Length of the SSN should be 9 digits seperated by 2 hyphens at position 4 and 7";
+            else if (ssnNumber.Any(char.IsLetter)) return "There should not be any alphabets";
+            else if (indexOf != -1) return "There should not be any special characters";
+            else if (!(ssnNumber[3] == '-' && ssnNumber[6] == '-')) return "Characters at position 4 and 7 should be hyphens(-)";
+            else if (ssnNumber.Substring(0, 3).Equals("000") || ssnNumber.Substring(0, 3).Equals("666") ||
+                Convert.ToInt32(ssnNumber.Substring(0, 3)) >= 900) return "The first part should have 3 digits and should not be 000, 666, or between 900 and 999";
+            else if (ssnNumber.Substring(4, 2).Equals("00")) return "The second part should have 2 digits and it should be from 01 to 99";
+            else if (ssnNumber.Substring(7, 4).Equals("0000")) return "The third part should have 4 digits and it should be from 0001 to 9999";
+            return true;
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("M1ckey       :" + validatePassword("M1ckey")); // Length fail
-            Console.WriteLine("m1ckeym0use  :" + validatePassword("m1ckeym0use")); // Capital letter fail
-            Console.WriteLine("MickeyMouse  :" + validatePassword("MickeyMouse")); // Numeric character fail
-            Console.WriteLine("M1ckeyM0use  :" + validatePassword("M1ckeyM0use")); // Specical character fail
-            Console.WriteLine("M1ckeyM0use@ :" + validatePassword("M1ckeyM0use@")); // Valid
+            Console.WriteLine("SSN validation and true will be returned if the SSN is valid");
+            Console.WriteLine("856-452-6789 :" + validateSSN("856-452-6789".Trim())); // Length fail
+            Console.WriteLine("396-a1-6789  :" + validateSSN("396-a1-6789".Trim())); // Alphabet fail
+            Console.WriteLine("510-1@-6789  :" + validateSSN("510-1@-6789".Trim())); // Special Character fail
+            Console.WriteLine("85-645-0000  :" + validateSSN("85-645-0000".Trim())); // hyphens fail
+            Console.WriteLine("000-45-6789  :" + validateSSN("000-45-6789".Trim())); // First part fail
+            Console.WriteLine("826-00-6789  :" + validateSSN("826-00-6789".Trim())); // Second part fail
+            Console.WriteLine("742-45-0000  :" + validateSSN("742-45-0000".Trim())); // Third part fail
+            Console.WriteLine("856-45-6789  :" + validateSSN("856-45-6789".Trim())); // Valid
         }
     }
 }
