@@ -1,0 +1,10 @@
+Creating Admin and SuperAdmin User:
+-----------------------------------
+
+select * from usr_User where usr_isActive = 1 order by 1 desc
+select * from ust_UserSet
+select * from upm_UserProfileMap where upm_usr_ID = 7501
+
+insert into upm_UserProfileMap 
+select '7501', pro_id as up from pro_Profile where pro_pts_ID = 354 and pro_Status = 1 and 
+pro_id not in (select upm_pro_ID from upm_UserProfileMap where upm_usr_ID = 7501)
