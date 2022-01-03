@@ -1,5 +1,5 @@
-Creating Admin and SuperAdmin User:
------------------------------------
+Admin User:
+-----------
 
 select * from usr_User where usr_isActive = 1 order by 1 desc
 select * from ust_UserSet
@@ -8,3 +8,51 @@ select * from upm_UserProfileMap where upm_usr_ID = 7501
 insert into upm_UserProfileMap 
 select '7501', pro_id as up from pro_Profile where pro_pts_ID = 354 and pro_Status = 1 and 
 pro_id not in (select upm_pro_ID from upm_UserProfileMap where upm_usr_ID = 7501)
+
+
+SuperAdmin User:
+----------------
+
+insert into usr_User
+select 'JohnPaul', --usr_FirstName,
+       'Klotz', --usr_LastName,
+       'superklotz',--usr_Login,
+       'rchalla@reputation.com',--usr_eMail,
+       3,--usr_rol_ID,
+       176,--usr_pts_ID,
+       usr_isActive,
+       usr_LastChanged,
+       usr_LastLogin,
+       usr_cli_ID,
+       usr_hasDailyAccess,
+       usr_hasPublishAccess,
+       usr_isV2,
+       usr_hasAllFilter1,
+       usr_hasAllFilter2,
+       usr_hasAllFilter3,
+       usr_pag_ID_Default,
+       usr_pro_ID,
+       usr_hasSterilChildren,
+       usr_isSuperAdmin,
+       usr_isModerator,
+       usr_Password,
+       usr_InvalidLoginAttempts,
+       usr_ResetToken,
+       usr_ResetSent,
+       usr_ResetProcessed,
+       usr_isFilter,
+       usr_ExternalID,
+       usr_ResetCreated,
+       usr_isCorporate,
+       usr_eul_ID,
+       usr_EULADate,
+       usr_hasDontEMail,
+       usr_isPasswordMigrated,
+       usr_SocialPostDraft,
+       usr_TimeZone,
+       usr_ImportID,
+       usr_hasSSO,
+       usr_SSOShowMasterPage,
+       getdate()
+from usr_User
+where usr_ID = 2857
